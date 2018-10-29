@@ -7,3 +7,8 @@ https://www.cnblogs.com/hayasi/p/5786937.html
 https://blog.csdn.net/xrinosvip/article/details/80428133
 
 过滤器https://www.cnblogs.com/ygj0930/p/6374212.html
+
+命令大全linuxhttp://man.linuxde.net/
+
+oracle安装https://blog.csdn.net/u010417185/article/details/80258438
+英文http://www.techienote.com/install-oracle-12c-on-ubuntu/
