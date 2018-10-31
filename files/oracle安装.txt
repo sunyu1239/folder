@@ -1,0 +1,9 @@
+https://blog.csdn.net/u010417185/article/details/80258438
+https://blog.csdn.net/chenfenggang/article/details/45847275
+添加group oninstall dba
+添加oracle用户，加入oninstall组，附加组dba
+/sbin/sysctl 查找对应参数，修改/etc/sysctl 里的对应值，添加其他参数。
+/etc/security/limits.conf 添加用户内核限制。
+配置环境变量
+建立软连接，伪装成redhat
+进入database，export LANG=US，防止乱码，运行runstaller

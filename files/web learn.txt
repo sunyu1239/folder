@@ -12,3 +12,5 @@ https://blog.csdn.net/xrinosvip/article/details/80428133
 
 oracle安装https://blog.csdn.net/u010417185/article/details/80258438
 英文http://www.techienote.com/install-oracle-12c-on-ubuntu/
+
+http请求种类https://blog.csdn.net/leikezhu1981/article/details/7402272
