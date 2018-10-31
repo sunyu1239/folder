@@ -1,4 +1,4 @@
-https://www.yiibai.com/objective_c/objective_c_function_call_by_reference.html
+﻿https://www.yiibai.com/objective_c/objective_c_function_call_by_reference.html
 https://gist.github.com/guweigang/9848271
 lunux双系统https://www.cnblogs.com/zhaoyu1995/p/6123826.html
 
@@ -14,3 +14,4 @@ oracle安装https://blog.csdn.net/u010417185/article/details/80258438
 英文http://www.techienote.com/install-oracle-12c-on-ubuntu/
 
 http请求种类https://blog.csdn.net/leikezhu1981/article/details/7402272
+git reset学习https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86
