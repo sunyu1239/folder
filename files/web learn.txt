@@ -17,3 +17,6 @@ http请求种类https://blog.csdn.net/leikezhu1981/article/details/7402272
 git reset学习https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86
 
 servlet流程  https://www.ibm.com/developerworks/cn/java/j-lo-servlet/index.html
+https://blog.csdn.net/gavin_john/article/details/51399425
+https://www.cnblogs.com/skywang12345/p/string01.html
+https://www.jianshu.com/p/6e028bd08d94
