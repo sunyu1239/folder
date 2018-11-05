@@ -20,3 +20,5 @@ servlet流程  https://www.ibm.com/developerworks/cn/java/j-lo-servlet/index.htm
 https://blog.csdn.net/gavin_john/article/details/51399425
 https://www.cnblogs.com/skywang12345/p/string01.html
 https://www.jianshu.com/p/6e028bd08d94
+
+http://c.biancheng.net/view/779.html
