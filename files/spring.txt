@@ -1,0 +1,7 @@
+spring 是改善其他框架架构的框架。
+spring 基本特征： dao/orm/aop/jee/web/core
+基于core架构多层JavaEE系统的框架，主要目的简化开发。
+core :the ioc container
+springioc : 控制反转：把对象的创建,初始化，销毁等工作交给spring容器来做。spring容器控制对象的生命周期。
+把一个类放入spring容器中，该类就是bean。<bean> id唯一标识，class类名。
+ApplicationContext 接口就是spring容器的最上层接口。
