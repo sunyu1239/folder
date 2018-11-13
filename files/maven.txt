@@ -1,0 +1,33 @@
+maven 跨平台项目管理工具，基于java平台的项目构建，依赖管理。
+maven 本地资源库： 存贮所有项目的依赖关系（插件jar和其他文件）。默认文件夹.m2。
+con/setting.xml localRepository修改默认位置。
+中央存储库 maven下载所有项目的依赖库的默认位置。
+安装之前需要安装jdk。
+maven的约定：
+src/main/java 项目java的文件
+src/main/source 项目的资源文件 （框架配置文件）
+src/test/java 测试的java文件
+src/test/resource 测试用的资源文件
+target            项目输出位置（编译后的文件）
+
+进入项目路径下，运行命令：
+mvn compile 自动编译项目，生成编译文件。
+mvn clean 清空target目录文件
+mvn test  junit测试
+mvn package 自动打包项目
+mvn install 自动打包，部署项目到本地仓库
+包继承<parent>坐标</parent>
+依赖的传递性。所依赖的jar包所在项目一定要在库中。
+A——>B B->C A->C
+依赖是根据maven的坐标寻找jar包的。
+maven坐标groupid，artfactid，version。
+项目中的pom.xml文件,发布到库中时，会编译成.pom文件。
+中央库：在互联网上的一个url，把依赖库导入进来。
+私服：web工程。
+maven先访问本地库，本地库根据setting.xml配置文件找中央库/私服。
+
+maven框架根据pom.xml去三个库中下载jar包，之后可以执行编译等命令。
+执行的那些命令是在org/apache/maven/plugin/下的插件执行的。
+maven 依赖  <scope> compile 编译/测试/打包 都起作用。test只在测试时有作用。
+junit版本要跟得上才会在eclipse中显示。
+

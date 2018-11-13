@@ -1,0 +1,10 @@
+
+sudo apt-get install git build-essential devscripts
+git clone git://github.com/Xinkai/XwareDesktop.git
+cd Xware
+dpkg-checkbuilddeps
+dpkg-buildpackage
+sudo dpkg-buildpackage -uc -us
+第一次先不要登陆,先要设置.启动迅雷软件->菜单栏->文件->设置
+->挂载->添加下载目录,比如我的是/home/name/download.
+->启动与登陆->xwared托管->我们选systemd托管,ETM选随xwared启动 

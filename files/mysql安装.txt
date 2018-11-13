@@ -1,0 +1,15 @@
+update user set authentication_string=PASSWORD("密码") where user='root'; update user set plugin="mysql_native_password"; flush privileges; quit;
+
+set global validate_password_policy=0;  
+
+
+
+sudo apt-get autoremove --purge mysql-server-5.7 
+#sudo apt-get remove mysql-server         # 没用到,已经没有mysql-server
+#sudo apt-get autoremove mysql-server  # 没用到,已经没有mysql-server
+sudo apt-get remove mysql-common
+sudo rm -rf /etc/mysql/  /var/lib/mysql    #很重要
+#清理残留数据
+dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P  
+sudo apt autoremove
+sudo apt autoreclean
