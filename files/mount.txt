@@ -1,0 +1,6 @@
+mount 选项 /挂载分区的设备名称 /系统需要挂载的文件夹
+
+mount -t ntfs /dev/sda2 /mnt/F -o iocharset=utf8,umask=0
+unmount /dev/sda2  御协分区
+
+/etc/fsatb 文件里末尾加入/dev/sda2 /mnt/F ntfs utf8,umask=0 ，这种方式可以开机时自动挂载。
