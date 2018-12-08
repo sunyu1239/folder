@@ -1128,3 +1128,34 @@ Linux 中所有的存储设备都必须挂载之后才能使用，包括硬盘�
 但是在 Linux 系统中要想使用光盘和 U 盘，就需要学一些挂载命令。
 挂载是指把硬盘分区（如分区 /dev/sdb1，其实指的是文件系统）和挂载点（已经建立的空目录）联系起来的过程。
 这里需要注意，挂载点必须是目录，而且原则上应该使用空目录作为挂载点。
+
+parted命令：创建分区
+parted 命令是可以在命令行直接分区和格式化的，不过 parted 交互模式才是更加常用的命令方式。
+parted 硬盘设备文件名 进入交互模式
+在输入模式下输入help查询所有命令。
+常见命令如下：
+check NUMBER 	做一次简单的文件系统检测
+cp [FROM-DEVICE] FROM-NUMBER TO-NUMBER 	复制文件系统到另一个分区
+help [COMMAND] 	显示所有的命令帮助
+mklabel,mktable LABEL-TYPE 	创建新的磁盘卷标（分区表）
+mkfs NUMBER FS-TYPE 	在分区上建立文件系统
+mkpart PART-TYPE [FS-TYPE] START END 	创建一个分区
+mkpartfs PART-TYPE FS-TYPE START END 	创建分区，并建立文件系统
+move NUMBER START END 	移动分区
+name NUMBER NAME 	给分区命名
+print [devices|free|list,all|NUMBER] 	显示分区表、活动设备、空闲空间、所有分区
+quit 	退出
+rescue START END 	修复丢失的分区
+resize NUMBER START END 	修改分区大小
+rm NUMBER 	删除分区
+select DEVICE 	选择需要编辑的设备
+set NUMBER FLAG STATE 	改变分区标记
+toggle [NUMBER [FLAG]] 	切换分区表的状态
+unit UNIT 	设置默认的单位
+Version 	显示版本
+
+
+
+
+
+
