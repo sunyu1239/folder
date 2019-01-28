@@ -1,0 +1,8 @@
+jdbc java DataBase connectiontives :su n公司制定的操作数据库的统一规范（就是一个接口给不同的人实现，通过多态的特性来达到使用不同db的目的），具体的实现由不同的厂商提供
+jdbc注册驱动:把驱动程序中的类文件加载到内存中，方便jdbc实现接口，这个过程只需要执行一次。
+注册驱动方式1：Class.forName("不同厂商的驱动名称").newInstance();
+方式2:DriverManager.registDriver（new 不同厂商的驱动Driver）；
+DriverManager.getConnection(url,username,password);
+url:不同厂商的协议，查看厂商接口文档
+username：连接数据库的用户
+password:用户对应的密码
