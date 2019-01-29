@@ -6,3 +6,16 @@ DriverManager.getConnection(url,username,password);
 url:不同厂商的协议，查看厂商接口文档
 username：连接数据库的用户
 password:用户对应的密码
+DriverManager这种方式有两个缺点
+1：registDriver()里的new Driver的时候，关联进去看的话，会发现已经注册过一次，前后加起来两次。
+2：new Driver buildpath中必须要有jar包才行。
+注册完驱动后，连接数据库：
+连接方式有三种：
+1.DriverManager.getConnection(url,username,passwd);String 类型的参数
+2.DriverManager.getConnection(url,new Properties());
+把参数以key,value的形式塞入到properties对象中，这种之后应该是配置文件那种格式的装配。
+3.DriverManager.getConnection(url/?参数名=参数)，这种类似于get请求
+应用程序和数据库的交互都是建立在获取连接之后的基础上的。
+connection.createStatement()获取到装sql文的对象
+通过封装好sql的statement对象执行操作。
+connection对象和statement对象用完都要关闭
