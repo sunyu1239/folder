@@ -1,0 +1,2 @@
+undefined是null的派生，所以undefined==null 返回的是true
+不过两者的类型是不一样的，typed of undefined是undefined,typed of null是object
