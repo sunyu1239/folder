@@ -1,0 +1,2 @@
+反射机制：简单来说，反射可以帮助我们在动态运行的时候，对于任意一个类，
+可以获得其所有的方法（包括 public protected private 默认状态的），所有的变量 （包括 public protected private 默认状态的）。
