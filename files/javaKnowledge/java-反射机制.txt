@@ -1,2 +1,7 @@
 反射机制：简单来说，反射可以帮助我们在动态运行的时候，对于任意一个类，
 可以获得其所有的方法（包括 public protected private 默认状态的），所有的变量 （包括 public protected private 默认状态的）。
+通过反射机制获得构造方法：
+public Constructor getConstructor(Class… parameterTypes) 获得指定public权限的构造方法。
+public Constructor getDeclaredConstructor(Class… parameterTypes) 获得任意权限的构造方法。
+public Constructor[] getConstructors() throws SecurityException获得所有public权限的构造方法。
+public Constructor[] getDeclaredConstructors() throws SecurityException 获得所有任意权限的构造方法。
