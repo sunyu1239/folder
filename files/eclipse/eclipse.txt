@@ -1,0 +1,26 @@
+eclipse目录下的plugins：
+每一个plug-in都用一个目录包起来, 而且起目录名也是有讲究的,比如plug-in的名字叫
+edu.sjtu.bbs.eclipse,版本是1.0.0, 那这个目录名就是edu.sjtu.bbs.eclipse_1.0.0.
+而且随便打开一个plugin目录,可以发现总有一个文件叫一个叫plugin.xml,这个文件对
+于plugin来说十分重要, 它相当于定义了plugin的运行参数,没有这个,plugin无法启动,
+就像你家的电冰箱如果不知道是用110V还是220V的,你也不敢乱往插座上插,所以总要有
+个说明,这个说明就是plugin.xml.
+features：
+feature是功能部件,它里面没有实际的运行的库,它只是eclipse用来管理plugins的一种
+途径. 比如你家装了电灯,总要有开关控制把,比如大堂的灯有一个开关控制, 卧室的灯
+也有一个开关控制, 它们分别用来控制灯的亮与灭.同样,功能部件就是用来控制插件的启动与否. eclipse的update透视图可以设定各个功
+能部件的启用或禁用状态, 所以你可以通过禁用功能部件,来禁止插件的启动. 这样有一
+个好处,比如你装了很多插件在eclipse上,但是装的越多,加载就越多,启动也会变慢。
+如果plugins目录有插件没有被任何一个功能部件包络的话, 我称之为"野插件", 就是eclipse
+启动,它也一定会启动, 就相当于没有开关, 电源一直连通一样.
+
+eclipse禁用插件：
+window->preferences->general->Startup and shutdown ,去掉勾选即可。
+
+eclipse删除安装插件的记录：
+window->preference->install/update->available software sites.
+
+eclipse 项目转换：
+项目右击->propertites->project facets
+eclipse javaWeb项目部署哪些到服务器中（例如：tomcat）
+项目右击->propertites->deployment assembly

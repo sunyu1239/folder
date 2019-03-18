@@ -1,7 +1,25 @@
-反射机制：简单来说，反射可以帮助我们在动态运行的时候，对于任意一个类，
+反射机制：主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。
+简单来说，反射可以帮助我们在动态运行的时候，对于任意一个类，
 可以获得其所有的方法（包括 public protected private 默认状态的），所有的变量 （包括 public protected private 默认状态的）。
 通过反射机制获得构造方法：
 public Constructor getConstructor(Class… parameterTypes) 获得指定public权限的构造方法。
 public Constructor getDeclaredConstructor(Class… parameterTypes) 获得任意权限的构造方法。
 public Constructor[] getConstructors() throws SecurityException获得所有public权限的构造方法。
 public Constructor[] getDeclaredConstructors() throws SecurityException 获得所有任意权限的构造方法。
+反射机制作用：
+1，反编译：.class-->.java
+2,通过反射机制访问java对象的属性，方法，构造方法等；
+反射机制提供的类：
+java.lang.Class;                
+java.lang.reflect.Constructor; 
+java.lang.reflect.Field;        
+java.lang.reflect.Method;
+java.lang.reflect.Modifier;
+很多反射中的方法，属性等操作我们可以从这四个类中查询。
+反射机制获取类的三种方式：
+1.Class.forName();
+2.xxx.class;
+3.new xxx().getClass();
+获取之后创建对象：
+Class class；
+class.newInstance();

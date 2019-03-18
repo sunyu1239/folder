@@ -1,5 +1,6 @@
 spring aop是纯java写的。
 eclipse安装ajdt插件，该插件包含编译*.aj的编译器。
+安装步骤：eclipse下载和eclipse版本对应的ajdt插件
 
 切点就是那些需要应用切面的方法，这些方法也称为目标方法。
 切面就是切点和通知的组合体。
