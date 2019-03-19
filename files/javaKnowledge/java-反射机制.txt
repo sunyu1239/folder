@@ -23,3 +23,23 @@ java.lang.reflect.Modifier;
 获取之后创建对象：
 Class class；
 class.newInstance();
+私有构造调用newInstance实例化的时候，需要构造先调用setAccessible(true),否则无法实例化，会报异常。
+
+获取属性：获取所有属性和指定属性。
+获取所有public属性：getFields();
+获取所有属性：getDeclaredFields();
+获取指定public属性：getField();
+获取指定任意属性：getDeclaredField();
+想要使用私有属性进行赋值，私有属性需要先调用setAccessible(true),否则报异常。
+field.set(obj,params);
+field.get(obj);
+
+获取方法：
+获取所有public权限的方法 getMethods();
+获取所有任意权限的方法 getDeclaredMethods();
+获取指定public的方法 getMethod("getName", null);
+获取指定的方法 getDeclaredMethod("sayHello", int.class);
+私有方法的调用之前，私有方法必须先调用setAccessible(true);
+invoke(obj,params);
+
+反射机制虽然灵活，不过性能降低了，复杂度变高，而且打破了java封装的特新，尽量少用。
