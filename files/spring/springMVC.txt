@@ -1,0 +1,10 @@
+mvc架构有很多，spring MVC比较流行。
+springMVC核心类和接口：
+1.DispatcherServlet类 前端控制器
+2.HandleMapping接口 处理请求的映射
+实现类：
+SimpleUrlHandlerMapping 通过配置文件，把一个url映射到Controller类上。
+DefaultAnnotationHandlerMapping 通过注解，把url请求映射到Controller类上。
+3.HandlerAdapter接口 处理请求的映射
+
+
