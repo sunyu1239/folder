@@ -1,0 +1,2 @@
+Java是静态语言，而python、ruby是动态语言，Java程序一旦写好很难在运行时更改类的行为，而python、ruby可以。 
+不过基于bytecode层面上我们可以做一些手脚，来使Java程序多一些灵活性和Magic，ASM就是这样一个应用广泛的开源库。 

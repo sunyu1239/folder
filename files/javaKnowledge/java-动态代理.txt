@@ -1,0 +1,30 @@
+JDK动态代理：
+java动态代理使用invocationHandler接口和proxy类。这两个是实现动态代理的核心。
+Proxy类就是用来创建代理对象的类，最常用的方法是newProxyInstance();该方法的三个参数：
+loader：一个classloader对象，定义了由哪个classloader对象对生成的代理类进行加载
+interfaces：一个interface对象数组，表示我们将要给我们的代理对象提供一组什么样的接口，如果我们提供了这样一个接口对象数组，那么也就是声明了代理类实现了这些接口，代理类就可以调用接口中声明的所有方法。
+h：一个InvocationHandler对象，表示的是当动态代理对象调用方法的时候会关联到哪一个InvocationHandler对象上，并最终由其调用。
+返回一个指定接口的代理类实例，该接口可以将方法调用指派到指定的调用处理程序。
+
+jdk动态代理的应用前提，必须是目标类基于统一的接口。
+
+动态代理构造实例时必须和调用处理器InvocationHandler相关联，它不会替你作实质性的工作，
+在生成它的实例时你必须提供一个调用处理器InvocationHandler，由它接管实际的工作。
+method.invoke()能反射出类中所有的方法。
+
+JDK动态代理，是因为这个代理class是由JDK在运行时动态帮我们生成。
+-Dsun.misc.ProxyGenerator.saveGeneratedFiles=true 可以把JDK动态生成的proxy class 的字节码保存到硬盘中，帮助我们查看具体生成proxy的内容。
+代理类生成过程：
+1.代理类字节码生成。
+2.把字节码通过传入的类加载器加载到虚拟机中。
+
+除了newProxyInstance()方式之外，还有其他方式生成代理类，如下：
+1.Proxy类的getProxyClass方法入口：需要传入类加载器和interface。
+
+CGLib动态代理：
+类没有接口的时候，就没有办法是用JDK动态代理。只能使用CGLib代理方式。
+JDK在创建代理对象时的性能要高于CGLib代理，而生成代理对象的运行性能却比CGLib的低。
+如果是单例的代理，推荐使用CGLib。
+
+CGLIB(Code Generation Library)是一个基于ASM的字节码生成库，它允许我们在运行时对字节码进行修改和动态生成。CGLIB通过继承方式实现代理。无法代理final修饰符的方法。
+
