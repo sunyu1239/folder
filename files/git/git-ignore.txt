@@ -1,0 +1,13 @@
+git提交的时候，有些文件是不想上传上去的，比如编译生成的.class文件。有两种方式可以做到不提交那些无用的文件。
+1.git命令
+在git项目新建隐藏文件.gitignore,touch .gitignore。
+之后用编辑器打开此文件，在文件中添加需要忽略的文件名。如下介绍：
+/target/ ：过滤文件设置，表示过滤这个文件夹
+*.mdb  ，*.ldb  ，*.sln 表示过滤某种类型的文件
+/mtk/do.c ，/mtk/if.h  表示指定过滤某个文件下具体文件
+ !*.c , !/dir/subdir/     !开头表示不过滤
+ *.[oa]    支持通配符：过滤repo中所有以.o或者.a为扩展名的文件
+该方法保证任何人都提交不了这类文件。
+
+2.eclipse 集成git
+window->perferencc->TEAM->ignored Resources->add pattern
