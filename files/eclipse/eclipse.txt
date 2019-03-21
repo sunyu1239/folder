@@ -24,3 +24,44 @@ eclipse 项目转换：
 项目右击->propertites->project facets
 eclipse javaWeb项目部署哪些到服务器中（例如：tomcat）
 项目右击->propertites->deployment assembly
+
+eclipse格式化：
+window->perference->java->Code Style->formatter
+点击edit,选项作用如下：
+1.Indentation缩进
+Tab policy指定是否可以使用Tab键，有Spaces only（只支持空格键），Tabs only（只支持Tab键）和Mixed（同时支持空格键和Tab键）。
+为了保证代码在不同IDE和运行环境的兼容性和一致性，强烈建议选择Spaces only。Indentation size指定每次缩进多少个空格，Tab size指定一个Tab键相当于多少个空格。
+在Spaces only情况下，按Tab键，会自动转化成对应数量的空格。Align fields in columns指定属性是否按列对齐。Indent框中指定Java Code中常见元素是否缩进。
+2.Braces大括号
+Braces positions指定Java Code中一些元素的大括号的位置，大概有Same line（同行），Next line（下行），Next line indented（下行缩进）等选择。
+3.White Space空格
+控制在Declarations、Control statements、Expressions、Arrays和Parameterized types这几类元素中的相应位置插入空格。
+4.Blank Lines空行
+控制class文件中元素之间空行的数量，基本上采用默认值。
+5.New Lines新行
+控制class文件中元素是否插入新的一行。
+6.Control Statements控制语句
+控制像if和else，do和while，以及try、catch和finally成套的控制关键字的位置。
+7.Line Wrapping换行
+Maximum line width控制每行的最大字符数。
+Default indentation for wrapped lines指定换行时缩进多少个空格。
+还可以详细控制class各元素是否换行。
+8.Comments注释
+对各种注释（包括文件头注释，行注释，块注释，Javadoc注释）进行格式设置。
+
+Save Actions设置
+进行Formatter设置后，你就可以使用Ctrl + Shift + F或者Source -> Format格式化选择的代码。
+其实，还有一种更好的方法，在每次写完代码并保存class文件的时候，自动格式化该文件的代码。选择Window -> Preferences -> Java -> Editor -> Save Actions
+选择“Perform the selected actions on save”以及下面的三个复选框，其中“Format source code”就是根据前面设置的Formatter对Save文件中的代码进行自动格式化，
+可以选择仅针对修改过的代码还是针对所有代码。“Additional actions”是添加一些Save时的额外操作，可以点击“Configure...”按钮对额外操作进行设置，如下：
+1.Code Organizing代码组织
+可以设置删除末尾的空格，正确的缩进，以及对成员进行排序。
+2.Code Style代码风格
+可以设置控制语句和表达式，最重要的是还可以设置所有的parameter为final。
+3.Member Access成员访问
+设置是否需要this来访问非static的属性和方法，同时也可以设置static的属性和方法
+4.Missing Code遗漏代码
+设置是否是否补齐遗漏的“@Override”和“@Deprecated”。
+5.Unnecessary Code不必要代码
+删除不必要的代码，例如：没用的import，没用的private成员，没用的local变量等。
+
