@@ -1,0 +1,2 @@
+虚线带空心三角的，是实现（realization）。实线带空心三角的，是范化（generalization）。
+实线带箭头带空心四角的，是聚合（aggregation）；实线带箭头带实心四角的，是组合（composition），箭头指向局部
