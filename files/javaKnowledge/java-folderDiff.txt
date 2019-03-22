@@ -1,0 +1,25 @@
+eclipse 中package，folder，source folder的区别。
+folder，通过名字我们也可以理解，其就是文件夹。
+与我们操作系统下的文件夹完全一样，不起到任何作用，只是存放文件而已，存放到folder中的任何文件都只当做普通文件夹，不管其中文件是否正确，因为IDE不会对其进行任何检查。
+
+package就是Java开发过程中的包，其路径就是每一个类的包路径，其必须存放在一个source folder下。
+
+source folder是用来存放Java源代码的，其下的所有Java源文件都会被时时编译成class文件。
+对于JavaSE的项目会被编译到项目目录下的bin目录下，对于JavaEE项目会被编译到相应的/WEB-INF/classes文件夹中，
+无论是哪种项目bin文件和classes文件夹都是不会再IDE中显示的，并且上面说到的都是默认的编译路径。
+
+package和source folder的区别：
+1.source folder是通过“/”（反斜线）来进行上下级划分的，而package是通过“.”（点）来进行上下级划分的。
+2.source folder下能创建package，但是反过来是不可以的，也就是说package下不能创建source folder。
+3.java源文件中的package属性是按照package路径来进行赋值的，换句话说在source folder这个目录下的文件的package属性为空。
+
+相同点：
+其中的Java源代码都会被时时编译成class文件。
+其中的非java文件会被拷贝一份到相应的class路径下。
+
+上面的三种文件夹的转换，我们可以通过右击 → Build Path中的选项进行操作。如下：
+
+package 转成 folder 显示：选中package, build path →  Exclude
+folder 转成 package 显示：选中folder, build path → Include
+package 转成 source folder 显示：选中package, build path → Use as Source folder
+source folder 转成 package 显示：选中folder, build path →  Remove from BuildPath

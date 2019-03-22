@@ -43,3 +43,6 @@ field.get(obj);
 invoke(obj,params);
 
 反射机制虽然灵活，不过性能降低了，复杂度变高，而且打破了java封装的特新，尽量少用。
+
+Class cl=Class.forName("");
+cl.getAnnoation(xx.class);获得的是类上的xx注解

@@ -1,0 +1,13 @@
+cmd命令行中使用sqlplus命令进入db。
+切换用户命令：
+conn 用户/密码
+dba特殊用户如下： conn sys/密码 as sysdba
+
+用户登录出现ORA-28002: パスワードは、7日以内に期限切れになります。是因为用户默认有效期180天。
+SELECT username,PROFILE FROM dba_users;查看配置文件表，发现是default行记录。
+SELECT * FROM dba_profiles s WHERE s.profile='DEFAULT' AND resource_name='PASSWORD_LIFE_TIME';查看default记录中密码期限属性。
+ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;修改属性
+如果用户登录已经提示28002的错误，执行如下命令：alter user smsc identified by <原来的密码> ----不用换新密码，就可以了。
+如果是没有出现ora28002的错误，就不需要做这样的步骤。
+
+查看oracle版本：select * from v$version;
