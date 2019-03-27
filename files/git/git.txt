@@ -2,6 +2,7 @@
 未使用 git add 缓存代码时。
 可以使用 git checkout -- filepathname (比如： git checkout -- readme.md  ，不要忘记中间的 “--” ，不写就成了检出分支了！！)。放弃所有的文件修改可以使用 git checkout .  命令。
 此命令用来放弃掉所有还没有加入到缓存区（就是 git add 命令）的修改：内容修改与整个文件删除。但是此命令不会删除掉刚新建的文件。因为刚新建的文件还没已有加入到 git 的管理系统中。所以对于git是未知的。自己手动删除就好了。
+未跟踪文件删除：git clean -f ;删除文件夹：git clean -fd;删除ignore过滤掉的未跟踪文件：git clean -xfd 一般是编译好的.class文件;如果删除文件不确定,在之前的命令中加入参数-n,来查看文件，如git clean -nf。
 
 缓存区：
 已经使用了  git add 缓存了代码。
