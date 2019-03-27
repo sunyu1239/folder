@@ -1,0 +1,19 @@
+模板引擎（这里特指用于Web开发的模板引擎）是为了使用户界面与业务数据（内容）分离而产生的，它可以生成特定格式的文档，用于网站的模板引擎就会生成一个标准的HTML文档。
+
+tal:define	Define variables.
+tal:switch	Defines a switch condition
+tal:condition	Include element only if expression is true.
+tal:repeat	Repeat an element.
+tal:case	Includes element only if expression is equal to parent switch.
+tal:content	Substitute the content of an element.
+tal:replace	Replace the element with dynamic content.
+tal:omit-tag	Omit the element tags, leaving only the inner content.
+tal:attributes	Dynamically change or insert element attributes.
+tal:on-error	Substitute the content of an element if processing fails.
+同一个元素包含多个tal，按照图上的顺序执行。tal：content和tal：replace是不可能同时存在的。
+
+metal:define-macro Define a macro.
+metal:use-macro Use a macro.
+metal:extend-macro Extend a macro.
+metal:define-slot Define a macro customization point.
+metal:fill-slot Customize a macro.
