@@ -1,0 +1,64 @@
+sqlalchemy是orm框架中用的很多的技术（工具）。
+连接数据库语法：
+engine = create_engine('mysql+mysqldb://root@localhost:3306/blog')
+
+登陆数据到db
+关系定义：
+1.一对多关系：
+一篇文章属于一个用户，一个用户可以写很多篇文章：
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(64), nullable=False, index=True)
+    password = Column(String(64), nullable=False)
+    email = Column(String(64), nullable=False, index=True)
+    articles = relationship('Article')
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.username)
+class Article(Base):
+    __tablename__ = 'articles'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(255), nullable=False, index=True)
+    content = Column(Text)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    author = relationship('User')
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.title)
+而用户与文章的之间的这个关系是双向的，所以我们看到上面的两张表中都定义了 relationship。
+SQLAlchemy 提供了 backref 让我们可以只需要定义一个关系：
+articles = relationship('Article', backref='author')
+添加了这个就可以不用再在 Article 中定义 relationship 了！
+
+2.一对一关系：
+一对一关系是基于一对多定义的：
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(64), nullable=False, index=True)
+    password = Column(String(64), nullable=False)
+    email = Column(String(64), nullable=False, index=True)
+    articles = relationship('Article', backref='author')
+    userinfo = relationship('UserInfo', backref='user', uselist=False)
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.username)
+class UserInfo(Base):
+    __tablename__ = 'userinfos'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64))
+    qq = Column(String(11))
+    phone = Column(String(11))
+    link = Column(String(64))
+    user_id = Column(Integer, ForeignKey('users.id'))
+定义方法和一对多相同，只是需要添加 userlist=False 。
+
+3.多对多关系：
+多对多关系不能直接定义，需要分解成俩个一对多的关系，为此，需要一张额外的表来协助完成。
+一遍博客通常有一个分类，好几个标签。标签与博客之间就是一个多对多的关系：
+
+
+4.映射到数据：
+表已经描述好了，在文件末尾使用下面的命令在我们连接的数据库中创建对应的表：
+if __name__ == '__main__':
+    Base.metadata.create_all(engine)
+	
+简单curd:
