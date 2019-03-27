@@ -1,0 +1,49 @@
+pyramid项目结构：
+1..coveragerc用于配置测试时的覆盖率。(隐藏文件，使用ls -a 可以看到)
+2. CHANGES.txt用于描述你对应用所做的更改。它通常是命令行格式的。
+3. MANIFEST.in是一个分发“清单“文件,记录了当`python setup.py sdist`指令运行时应该将哪些文件包含进来。
+4. README.txt从总体上描述了整个应用，它通常是命令行格式的。
+5. develoment.ini是一个用于在开发过程中启动你的应用的配置文件
+6. production.ini是一个在你将应用正式发布时启动你应用的配置文件
+7. pytest.ini是一个测试的配置文件
+8. setup.py是一个你可以用来测试和分发你的项目的文件。他是一个标准的setuptools setup.py文件。
+
+development.ini文件中，包括[app:main],[server:main],以及其他几个和日志配置有关的部分。
+1.[app:main]部分代表了你的Pyramid应用的配置。use选项是唯一一个在[app:main]中必须要设置的选项。
+他的默认配置是use=egg:project1，这其实是use=egg:peoject1#main的简写，你在setup.py文件中的entry_points属性中也能找到这句配置。
+它们的作用是一致的：用于标识我们应用的入口函数。peoject1#main实际上是一种Python定义的使用字符串来映射python对象的方式，当我们使用pserve运行ini文件启动项目时，
+pserve会根据这个字符串映射去找到project1项目中的__init__.py文件中的main函数去执行（运行setup.py文件时也会去找到这个main函数作为应用入口）。这里的egg前缀是程序入口标识符。
+[app:main]此部分中添加的其他设置将作为关键字参数传递给程序入口：__init__.py的main函数。
+例如pyramid.includes = pyramid_debugtoolbar 告诉pyramid需要导入debbugtoolbar，pyramid.reload_templates = true告诉pyramid动态加载页面模板。
+简单讲：
+[app:main]配置了你的项目的程序入口，在你调用pserve运行ini文件时，会根据这行配置找到__init__.py文件的main函数并返回一个应用的实例来启动你的应用。
+2.[server:main] 的配置和[app:main]的配置非常相似，[server:main] 
+use = egg:waitress#main 
+listen = localhost:6543
+表示使用waitress服务器启动应用，并监听本地ip的6543端口。
+后面包含logger的配置项代表了python的logging日志标准库中的一些设置。
+当pserve运行了ini文件，这些设置会应用于项目日志输出。默认是将debug级别的日志输出到你的控制台。
+
+production.ini
+它几乎和development.ini是一样的，区别在于，它禁用了浏览器调试工具，过滤了所有warn级别以下的日志信息，并且关闭了页面模板自动重载功能。
+当您需要将应用正式发布时，适合使用production.ini来启动应用。
+
+MANIFEST.in
+用于标识您启动项目时，应该加载哪些非python文件，例如.txt .pt .html .js .css文件等，如果没有MANIFEST.in文件，项目只会加载.py结尾的纯python文件。
+
+setup.py运行时会调用setuptools工具的setup方法，它会将文件中的参数传递给pip完成项目依赖库的安装。 
+你可以在文件中设置项目名称，版本等信息。 
+
+项目下同名的子文件夹下的各个文件夹：
+__init__.py是一个用于启动应用的python文件，它包含了一个表示程序入口的用于被pserve或pshell等调用的main函数。
+templates目录，顾名思义，存放的是页面模板文件，这里的jinja2模板是以.pt结尾。
+tests.py是用于测试应用的代码
+views.py是处理http请求，返回响应的python文件
+static目录包含了一些静态文件，比如项目中的图片或是css样式文件
+
+自定义包结构：
+多个视图时，想将所有的视图都放到子文件views里,那么你需要做如下3步：
+在你包内建立一个名叫views的文件目录（和原来的views.py同级）
+在views目录内建立一个__init__.py文件。这个文件可以是空的，只是用于告诉Python这个目录是一个包
+将views.py的内容移动到views文件夹的blog.py文件内，由于页面模板文件templates还是在project1目录下，因此blog.py中的模板的引用必须使用绝对路径（project1:templates/mytemplate.jinja2）
+
