@@ -47,3 +47,6 @@ static目录包含了一些静态文件，比如项目中的图片或是css样�
 在views目录内建立一个__init__.py文件。这个文件可以是空的，只是用于告诉Python这个目录是一个包
 将views.py的内容移动到views文件夹的blog.py文件内，由于页面模板文件templates还是在project1目录下，因此blog.py中的模板的引用必须使用绝对路径（project1:templates/mytemplate.jinja2）
 
+main函数；
+  这个main函数是Pyramid自动生成的本项目的入口，这里global_config, settings两个参数分别对应于development.ini(或production.ini)中的DEFAULT段和app:myproject段的内容。本函数主要功能就是完成了使用traversal机制进行URL映射的配置过程。traversal机制是受zope启发而来的一种URL映射机制，可以构建比较复杂的URL结构。如果URL结构比较简单的化，可以使用ROUTE机制，比较直观一点。
+该函数最后返回一个WSGI应用以启动本应用。
