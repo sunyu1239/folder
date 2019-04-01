@@ -1,3 +1,30 @@
+spring容器，springMVC容器，tomcat容器：
+springMVC容器和spring容器，就是管理bean对象的地方，再说的直白点，springmvc就是管理controller对象的容器，spring就是管理service和dao的容器。
+在springmvc的配置文件里配置的扫描路径就是controller的路径，而spring的配置文件里自然配的就是service和dao的路径。
+ spring容器和springmvc容器的关系是父子容器的关系。spring容器是父容器，springmvc是子容器。在子容器里可以访问父容器里的对象，
+ 但是在父容器里不可以访问子容器的对象，说的通俗点就是，在controller里可以访问service对象，但是在service里不可以访问controller对象。
+ web容器是管理servlet，以及监听器(Listener)和过滤器(Filter)的。这些都是在web容器的掌控范围里。但他们不在spring和springmvc的掌控范围里。因此，我们无法在这些类中直接使用Spring注解的方式来注入我们需要的对象，是无效的，
+web容器是无法识别的。
+但我们有时候又确实会有这样的需求，比如在容器启动的时候，做一些验证或者初始化操作，这时可能会在监听器里用到bean对象；又或者需要定义一个过滤器做一些拦截操作，也可能会用到bean对象。
+那么在这些地方怎么获取spring的bean对象呢？下面我提供两个方法：
+1、
+
+public void contextInitialized(ServletContextEvent sce) {
+　　ApplicationContext context = (ApplicationContext) sce.getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE); 
+　　UserService userService = (UserService) context.getBean("userService");
+}
+ 
+
+2、
+
+public void contextInitialized(ServletContextEvent sce) {
+　　WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext()); 
+　　UserService userService = (UserService) webApplicationContext.getBean("userService"); 
+}
+
+以上代码有一个前提，那就是servlet容器在实例化ConfigListener并调用其方法之前，要确保spring容器已经初始化完毕！而spring容器的初始化也是由Listener（ContextLoaderListener）完成，因此只需在web.xml中先配置初始化spring容器的Listener，然后在配置自己的Listener。
+
+
 spring 是改善其他框架架构的框架。
 spring 基本特征： dao/orm/aop/jee/web/core
 基于core架构多层JavaEE系统的框架，主要目的简化开发。
