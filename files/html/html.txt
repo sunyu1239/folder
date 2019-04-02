@@ -1,0 +1,11 @@
+html标签：
+label标签：属性for，accesskey,效果：点击label标签，自动聚焦到相应的元素。
+for功能：表示这个Lable是为哪个控件服务的，Label标签要绑定了for指定HTML元素的ID或name属性，你点击这个标签的时候，所绑定的元素将获取焦点 ，点击label所包裹内容，自动指向for指定的id或name
+accesskey则定义了访问这个控件的热键( 所设置的快捷键不能与浏览器的快捷键冲突，否则将优先激活浏览器的快捷键)
+例子：<label for="username">姓名</label><input id="username" type="text">
+单选钮、复选框都要点击控件才能选中控件，而如果使用<label>标识就可以实现点击文字选取。
+例子：
+<input type="checkbox" id="a" value="haha" name="cn">
+<label for="a" >haha </label>
+<input type="checkbox" id="b" value="hehe" name="cm">
+<label for="b" >hehe </label>

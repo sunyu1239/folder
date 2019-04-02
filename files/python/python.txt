@@ -54,3 +54,246 @@ main函数；
 通俗的理解__name__ == '__main__'：假如你叫小明.py，在朋友眼中，你是小明(__name__ == '小明')；在你自己眼中，你是你自己(__name__ == '__main__')。
 if __name__ == '__main__'的意思是：当.py文件被直接运行时，if __name__ == '__main__'之下的代码块将被运行；当.py文件以模块形式被导入时，if __name__ == '__main__'之下的代码块不被运行。
 模块如果被其他模块引入，其他模块运行时，本模块中执行的操作不想被执行，可以用上述来判断，限制他的执行。
+
+
+self详解：
+1.self代表类的实例，而非类。
+2.self不必非写成self。
+t=Test()
+t.prt()
+实际上t.prt()是Test.prt(t)
+
+算数运算：
+**：次方运算
+*除了是算数运算符乘号的作用，用在string上就是重复的意思。例子：
+>>> 3 * 'un' + 'ium'
+'unununium'
+字符串之间如果没有连接符+，照样会自动连接。例子：
+>>> 'Py' 'thon'
+'Python'
+这只在两个字符串之间才有效，如果是变量或者表达式的话，不起作用。
+
+string index 即可以从左边开始0，1...;又可以从右边开始：-1，-2...。
+string 被赋值后是不变的。长度固定，index对应的值不可变。
+
+list []内的元素类型可以不同，一般都相同，长度可变，index对应的值可变。例子：squares = [1, 4, 9, 16, 25]
+使用下表index取值，返回的是新的list，例子：
+>>> squares[0]  # indexing returns the item
+1
+下面的例子，返回的是list的复制list：
+>>> squares[:]
+[1, 4, 9, 16, 25]
+不过xx[:]这种用法还可以清空xxlist，例子：
+>>> letters[:] = []
+>>> letters
+[]
+
+条件语句：
+if...：
+elif ...：
+else：
+没有switch，case语句。
+
+循环语句：
+while：和java不同的是，没有do...while。
+
+for循环
+>>> for w in words[:]:  # Loop over a slice copy of the entire list.
+...     if len(w) > 6:
+...         words.insert(0, w)
+...
+>>> words
+['defenestrate', 'cat', 'window', 'defenestrate']
+
+Loop statements may have an else clause，例子：
+>>> for n in range(2, 10):
+...     for x in range(2, n):
+...         if n % x == 0:
+...             print(n, 'equals', x, '*', n//x)
+...             break
+...     else:
+...         # loop fell through without finding a factor
+...         print(n, 'is a prime number')
+...
+2 is a prime number
+3 is a prime number
+4 equals 2 * 2
+5 is a prime number
+6 equals 2 * 3
+7 is a prime number
+8 equals 2 * 4
+9 equals 3 * 3
+这里的else用法：it is executed when the loop terminates through exhaustion of the list (with for) or when the condition becomes false (with while), 
+but not when the loop is terminated by a break statement.
+上述代码来看，子for循环结束时，执行else，break的时候，不会执行。while是循环条件不满足的时候，执行else。
+
+range()返回连续数，具体用法自查。参数可选。
+
+pass：
+The pass statement does nothing. It can be used when a statement is required syntactically but the program requires no action. For example:
+>>> while True:
+...     pass  # Busy-wait for keyboard interrupt (Ctrl+C)
+...
+
+This is commonly used for creating minimal classes:
+>>> class MyEmptyClass:
+...     pass
+...
+
+Another place pass can be used is as a place-holder for a function or conditional body when you are working on new code, allowing you to keep thinking at a more abstract level. The pass is silently ignored:
+>>> def initlog(*args):
+...     pass   # Remember to implement this!
+...
+
+有返回值的称为函数，没有返回值的称为过程。
+
+def funcionName:
+return
+函数不写return也是没有关系的，因为默认会返回None。
+
+函数的参数写法：
+例子：
+def ask_ok(prompt, retries=4, reminder='Please try again!'):
+    while True:
+        ok = input(prompt)
+        if ok in ('y', 'ye', 'yes'):
+            return True
+        if ok in ('n', 'no', 'nop', 'nope'):
+            return False
+        retries = retries - 1
+        if retries < 0:
+            raise ValueError('invalid user response')
+        print(reminder)
+这个例子里的参数是有默认值的。有默认值的，实际调用的时候可以不传，上述函数可以只传一个prompt。例子：
+giving only the mandatory argument: ask_ok('Do you really want to quit?')
+giving one of the optional arguments: ask_ok('OK to overwrite the file?', 2)
+or even giving all arguments: ask_ok('OK to overwrite the file?', 2, 'Come on, only yes or no!')、
+参数的默认值只能赋值一次。不管是常量形式，还是变量形式。
+
+函数的参数类型：POSITIONAL_OR_KEYWORD、VAR_POSITIONAL、VAR_KEYWORD、KEYWORD_ONLY、POSITIONAL_ONLY。
+1.POSITIONAL_OR_KEYWORD如其名所见，既可以用位置传参，也可以用关键字传参，并且他没有任何*的声明
+ def foo(name):
+...     print(name)
+...
+>>> foo("hello")
+hello
+>>> foo(name="hello")
+hello
+
+2.VAR_POSITIONAL是可变参数，通过*来声明，它会把接收到的值存入一个元组
+>>> def foo(*args):
+...     print(args)
+...
+>>> foo(1, 2, 3, 4, 5)
+(1, 2, 3, 4, 5)
+
+3.KEYWORD_ONLY只能通过关键字传参，这种参数会在VAR_POSITIONAL参数类型的后面，而且不带**前缀，如同语义，只能通过指定关键字来传参，不可以用位置传参
+>>> def foo(n1, *, n2):
+...     print(n1, n2)
+...
+>>> foo("hello", n2="world")
+hello world
+
+4.VAR_KEYWORD是可变关键字参数，通过前缀**来声明，这种参数类型可以接收0个或多个参数，并存入一个字典
+>>> def foo(**kwargs):
+...     for key, value in kwargs.items():
+...         print("%s=%s" % (key, value))
+...
+>>> foo(a=1, b=2, c=3)
+a=1
+b=2
+c=3
+
+5.POSITIONAL_ONLY是第五个参数类型，但是它已经不重要了，因为高版本的Python无法创建一个POSITIONAL_ONLY类型的参数，但是有些使用C语言实现且不接收关键字参数的函数（如divmod）支持
+
+从下面的例子，我们可以看到，新定义的foo函数，每个参数都对应到上面的一个类型
+>>> def foo(name, *args, middle=None, **kwargs): #----位置或关键字参数(1/'hhah' or a=1/a='hha'),可变位置参数('h','a'/1,2),关键字参数(a=1/a='aa')（这个一定是接在可变位置参数后面）,可变关键字(a='a',b='a'/a=1,b=2)
+...     print("name:", name)
+...     print("args:", args)
+...     print("middle:", middle)
+...     print("kwargs:", kwargs)
+...
+>>> foo("hello", 1, 2, 3, middle="world", a=1, b=2, c=3)
+name: hello
+args: (1, 2, 3)
+middle: world
+kwargs: {'a': 1, 'b': 2, 'c': 3}
+>>> my_foo = {"name": "hello", "middle": "world", "a": "1", "b": "2", "c": "3"}
+>>> foo(**my_foo)
+name: hello
+args: ()
+middle: world
+kwargs: {'a': '1', 'b': '2', 'c': '3'}
+>>> from inspect import signature
+>>> sig = signature(foo)
+>>> for name, param in sig.parameters.items():
+...     print(param.kind, ":", name, '=', param.default)
+...
+POSITIONAL_OR_KEYWORD : name = <class 'inspect._empty'>
+VAR_POSITIONAL : args = <class 'inspect._empty'>
+KEYWORD_ONLY : middle = None
+VAR_KEYWORD : kwargs = <class 'inspect._empty'>
+
+参数绑定：
+1.将函数的参数绑定到一个字典上：上述代码中就有例子。
+在inspect模块的帮助下，展示了Python数据模型把实参绑定给函数调用的形参的机制，这与解释器使用的机制相同，当我们删除字典中的name，执行时会报错缺少name参数。
+
+2.再者，我们使用operator模块进行参数绑定
+>>> from operator import methodcaller
+>>> s = "The time has come"
+>>> upcase = methodcaller("upper")
+>>> upcase(s)
+'THE TIME HAS COME'
+>>> hiphenate = methodcaller("replace", " ", "-")
+>>> hiphenate(s)
+'The-time-has-come'
+　
+如上，methodcaller创建的函数会在对象上调用参数指定的方法，我们可以自己建立一个对象并生成自己的方法，再用methodcaller调用
+class Person:
+    def __init__(self, name):
+        self.name = name
+ 
+    def say(self, text):
+        print(self.name, 'say:', text)
+ 
+p = Person("John")
+person_say = methodcaller("say", "hello")
+person_say(p)
+
+最后会打印：
+John say: hello
+
+
+使用function.partial冻结参数：
+function.partial这个高阶函数用于部分应用函数，部分应用是指，基于一个函数创建一个新的可调用对象，把原函数的某些参数固定
+>>> from operator import mul
+>>> from functools import partial
+>>> triple = partial(mul, 3)
+>>> triple(7)
+21
+>>> list(map(triple, range(1, 10)))
+[3, 6, 9, 12, 15, 18, 21, 24, 27]
+　　
+如上，我们使用mul创建了triple函数，把第一个参数固定为3，然后返回一个可调用的对象，再传入不同的参数。
+
+Python join() 方法用于将序列中的元素以指定的字符连接生成一个新的字符串。例子：
+str = "-";
+seq = ("a", "b", "c"); # 字符串序列
+print str.join( seq );
+输出：
+a-b-c
+
+元组：
+用()标识，元组负完值之后，是不可变的。
+
+面向对象简介：
+类(Class): 用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。
+类变量：类变量在整个实例化的对象中是公用的。类变量定义在类中且在函数体之外。类变量通常不作为实例变量使用。
+数据成员：类变量或者实例变量, 用于处理类及其实例对象的相关的数据。
+方法重写：如果从父类继承的方法不能满足子类的需求，可以对其进行改写，这个过程叫方法的覆盖（override），也称为方法的重写。
+局部变量：定义在方法中的变量，只作用于当前实例的类。
+实例变量：在类的声明中，属性是用变量来表示的。这种变量就称为实例变量，是在类声明的内部但是在类的其他成员方法之外声明的。
+继承：即一个派生类（derived class）继承基类（base class）的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计：一个Dog类型的对象派生自Animal类，这是模拟"是一个（is-a）"关系（例图，Dog是一个Animal）。
+实例化：创建一个类的实例，类的具体对象。
+方法：类中定义的函数。
+对象：通过类定义的数据结构实例。对象包括两个数据成员（类变量和实例变量）和方法。

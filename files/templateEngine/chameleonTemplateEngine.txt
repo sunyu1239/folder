@@ -17,3 +17,12 @@ metal:use-macro Use a macro.
 metal:extend-macro Extend a macro.
 metal:define-slot Define a macro customization point.
 metal:fill-slot Customize a macro.
+
+metal:define-slot 定义一个替代标签，效果类似于占位符。
+metal:fill-slot   实际的类容，用来替代占位符。
+slot必须在macro里面使用。
+
+<tal:block> 表示tal区域，上面定义的tal语句可以直接使用句柄，不需要加tal：前缀来使用。
+
+metal：use-macro="load:xx.pt" 
+load效果:加载xx.pt的内容到本文中。
