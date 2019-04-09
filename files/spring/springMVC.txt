@@ -7,4 +7,22 @@ SimpleUrlHandlerMapping 通过配置文件，把一个url映射到Controller类�
 DefaultAnnotationHandlerMapping 通过注解，把url请求映射到Controller类上。
 3.HandlerAdapter接口 处理请求的映射
 
+处理器，映射器，适配器三者的关系：
+1.springmvc的映射器
+根据客户端请求的url，找到处理本次请求的handler（处理器），将url和controller关联起来。
 
+2.springmvc的适配器
+对映射器查找到的controller中的方法进行调用。（个人理解为：找到对应的controller层的class，选择调用类里面的那个方法，因为每个controller里面肯定不止一个业务处理，所以调用那个就需要根据http请求，用适配器来找那个和请求对应的方法）
+第一种：Controller适配
+第二种：HttpRequestHandler适配
+第三种：注解适配
+不同的处理器，对应不同的适配器，但是所有适配器最终都返回ModelAndView对象，
+springmvc通过对ModelAndView对象进行解析，获得需要响应到客户端的数据和试图。
+
+自定义hander的方法定义：
+1.方法参数的问题：
+默认参数：httpServletRequest,httpServletResponse,httpSession,model。
+2.客户端请求数据的绑定（个人理解：前台http请求时，那些需要传到后台的参数应该怎样绑定到处理器中）
+①简单类型：String类型和基本数据类型的形参
+②http请求传递的所有数据封装到javabean里面，javabean类型的形参
+③定义集合类型的形参
