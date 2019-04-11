@@ -1,0 +1,5 @@
+sql语句分类：DCL,DDL,DML.
+DCL(data control language):控制语句，grant，revoke等权限语句，只有sysadmin,dbcreator,db_owner或db_securityadmin等人员才有权力执行DCL。
+DDL(data define language)：定义语句，create database，create table /drop database,drop table/alter table/truncate table等定义数据库相关的语句。
+DML(data manipulation language):操作语句，insert/update/delete这些会导致数据发生变化的语句。
+

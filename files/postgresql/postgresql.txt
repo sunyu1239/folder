@@ -1,0 +1,19 @@
+--查询是否锁表了
+select oid from pg_class where relname='可能锁表了的表'
+select pid from pg_locks where relation='上面查出的oid'
+--如果查询到了结果，表示该表被锁 则需要释放锁定
+select pg_cancel_backend(上面查到的pid)
+
+查找所有的函数:
+SELECT
+  pg_proc.proname AS 函数名称,
+  pg_type.typname AS 返回值数据类型,
+  pg_proc.pronargs AS 参数个数
+FROM
+  pg_proc
+    JOIN pg_type
+   ON (pg_proc.prorettype = pg_type.oid)
+WHERE
+  pg_type.typname != 'void'
+  AND pronamespace = (SELECT pg_namespace.oid FROM pg_namespace WHERE nspname = 'public');
+  
