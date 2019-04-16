@@ -1,0 +1,15 @@
+jsp九大内置对象：
+request，response，pageContext，page，session，out，config，application，exception。
+
+request对象：
+request中的getAttribute（）和getParameter（）区别：
+①从获取方向来看：
+getParameter()是获取 POST/GET 传递的参数值；
+getAttribute()是获取对象容器中的数据值；
+②从用途来看：
+getParameter用于客户端重定向时，即点击了链接或提交按扭时传值用，即用于在用表单或url重定向传值时接收数据用。
+getAttribute用于服务器端重定向时，即在 sevlet 中使用了 forward 函数,或 struts 中使用了 mapping.findForward。 getAttribute 只能收到程序用 setAttribute 传过来的值。
+
+总结：
+getParameter 返回的是String,用于读取提交的表单中的值;（获取之后会根据实际需要转换为自己需要的相应类型，比如整型，日期类型啊等等）
+getAttribute 返回的是Object，需进行转换,可用setAttribute 设置成任意对象，使用很灵活，可随时用
