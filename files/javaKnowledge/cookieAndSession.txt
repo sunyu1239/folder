@@ -7,3 +7,34 @@ Cookie在客户端是由浏览器来管理的。浏览器能够保证Google只�
 
 设置Cookie的所有属性：
 除了name与value之外，Cookie还具有其他几个常用的属性。每个属性对应一个getter方法与一个setter方法。
+
+
+cookie验证身份，session验证身份：查看browserFiles下的cookie-session网页。
+
+该Cookie失效的时间，单位秒。如果为正数，则该Cookie在maxAge秒之后失效。如果为负数，该Cookie为临时Cookie，关闭浏览器即失效，浏览器也不会以任何形式保存该Cookie。如果为0，表示删除该Cookie。默认为–1。
+cookie的生命周期：
+cookie由服务器生成，放到resoponse里面带给浏览器，浏览器根据cookie的属性maxage管理cookie的生命周期。
+如上面所写,maxage是正数的话，浏览器会把cookie从内存中写到硬盘文件中，此时cookie的生命周期是到maxage时间就过期，无效了。
+maxage=0，是删除cookie用的，cookie没有直接提供修改，删除方法，只能通过覆盖的手段来达到修改，删除的目的。
+maxage是负数的话，cookie是临时的，cookie只存在内存中，浏览器关闭的话，cookie生命周期结束，这种cookie称为会话cookie。
+
+session是存在服务器内存中的，过多的并发访问会导致服务器内存溢出。
+session的使用还是需要用到cookie，cookie可以单独使用。session的id是放在cookie里的。
+http请求会携带sessionid，来找到对应的session，匹配到的session根据这个相同的seesionid确认请求时同一个用户发来的。
+
+父子窗口这样形式的浏览器才会共享cookie，cookie一样了，sessionid就一样了，所以可以共享一个session，父子窗口可以是这样的：
+浏览器窗口内的链接、脚本等打开的新窗口（也就是说不是双击桌面浏览器图标等打开的窗口）
+
+Session是用于存放用户与web服务器之间的会话，即服务器为客户端开辟的存储空间。
+
+session生命周期：
+生成：
+Sessinon在用户访问第一次访问服务器时创建，需要注意只有访问JSP、Servlet等程序时才会创建Session，只访问HTML、IMAGE等静态资源并不会创建Session,可调用request.getSession(true)强制生成Session。
+销毁：
+1.服务器会把长时间没有活动的Session从服务器内存中清除，此时Session便失效。一般session是有默认时间的。
+2.session.invalidate() 这种是手动销毁。
+
+session的过期时间是从什么时候开始计算的？是从一登录就开始计算还是说从停止活动开始计算？
+答：从session不活动的时候开始计算，如果session一直活动，session就总不会过期。
+从该Session未被访问,开始计时; 一旦Session被访问,计时清0;
+总结：在默认过期时间之中，每次请求到后台服务器，不管有没有显示的用sesson，就当作是激活session，此时计时重新开始。

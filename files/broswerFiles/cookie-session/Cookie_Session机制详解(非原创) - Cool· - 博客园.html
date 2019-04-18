@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)https://www.cnblogs.com/liuwei0824/p/7699632.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="never">
+    <title>Cookie/Session机制详解(非原创) - Cool· - 博客园</title>
+<meta property="og:description" content="会话（Session）跟踪是Web程序中常用的技术，用来跟踪用户的整个会话。常用的会话跟踪技术是Cookie与Session。Cookie通过在客户端记录信息确定用户身份，Session通过在服务器端">
+    <link type="text/css" rel="stylesheet" href="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/bundle-LoveIsIntheAir.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/bundle-LoveIsIntheAir-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/liuwei0824/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/liuwei0824/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/liuwei0824/wlwmanifest.xml">
+    <script src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/pubads_impl_rendering_2019041101.js.下载"></script><script async="" src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/analytics.js.下载"></script><script src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=366534;var currentBlogApp='liuwei0824',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/f.txt"></script><script src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/pubads_impl_2019041101.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-32/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<center>
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/liuwei0824/"><img id="blogLogo" src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/logo.gif" alt=""></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/liuwei0824/">Cool</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/liuwei0824/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Cool%26%23183%3B">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/liuwei0824/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/liuwei0824/rss"><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/xml.gif" alt="订阅"></a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<!--done-->
+随笔- 171&nbsp;
+文章- 0&nbsp;
+评论- 1&nbsp;
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div class="clear"></div>
+	<div id="topicList">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/liuwei0824/p/7699632.html">Cookie/Session机制详解(非原创)</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p align="left">会话（Session）跟踪是Web程序中常用的技术，用来<strong>跟踪用户的整个会话</strong>。常用的会话跟踪技术是Cookie与Session。<span style="color: #ff0000;"><strong>Cookie通过在客户端记录信息确定用户身份</strong>，<strong>Session通过在服务器端记录信息确定用户身份</strong>。</span></p>
+<p align="left">本章将系统地讲述Cookie与Session机制，并比较说明什么时候不能用Cookie，什么时候不能用Session。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1&nbsp; Cookie机制</strong></p>
+<p align="left">在程序中，会话跟踪是很重要的事情。理论上，<span style="color: #ff0000;"><strong>一个用户的所有请求操作都应该属于同一个会话</strong>，而另一个用户的所有请求操作则应该属于另一个会话，二者不能混淆。例如，用户A在超市购买的任何商品都应该放在A的购物车内，不论是用户A什么时间购买的，这都是属于同一个会话的，不能放入用户B或用户C的购物车内，这不属于同一个会话。</span></p>
+<p align="left">而Web应用程序是使用HTTP协议传输数据的。<span style="color: #ff0000;"><strong>HTTP协议是无状态的协议。一旦数据交换完毕，客户端与服务器端的连接就会关闭，再次交换数据需要建立新的连接。这就意味着服务器无法从连接上跟踪会话</strong>。即用户A购买了一件商品放入购物车内，当再次购买商品时服务器已经无法判断该购买行为是属于用户A的会话还是用户B的会话了。要跟踪该会话，必须引入一种机制。</span></p>
+<p align="left">Cookie就是这样的一种机制。它可以弥补HTTP协议无状态的不足。在Session出现之前，基本上所有的网站都采用Cookie来跟踪会话。</p>
+<p align="left"><strong>1.1.1&nbsp; 什么是Cookie</strong></p>
+<p align="left">Cookie意为“甜饼”，是<strong>由W3C组织提出</strong>，最早由Netscape社区发展的一种机制。目前Cookie已经成为标准，所有的主流浏览器如IE、Netscape、Firefox、Opera等都支持Cookie。</p>
+<p align="left">由于HTTP是一种无状态的协议，服务器单从网络连接上无从知道客户身份。怎么办呢？就<span style="color: #ff0000;"><strong>给客户端们颁发一个通行证吧，每人一个，无论谁访问都必须携带自己通行证。这样服务器就能从通行证上确认客户身份了。这就是Cookie的工作原理</strong>。</span></p>
+<p align="left">Cookie实际上是一小段的文本信息。客户端请求服务器，如果服务器需要记录该用户状态，就使用response向客户端浏览器颁发一个Cookie。客户端浏览器会把Cookie保存起来。当浏览器再请求该网站时，浏览器把请求的网址连同该Cookie一同提交给服务器。服务器检查该Cookie，以此来辨认用户状态。服务器还可以根据需要修改Cookie的内容。</p>
+<div><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/0_13208318702UfF.gif" alt="" width="447" height="277"></div>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left">查看某个网站颁发的Cookie很简单。在浏览器地址栏输入<span style="color: #ff0000;"><strong>javascript:alert (document. cookie)</strong>就可以了（需要有网才能查看）。JavaScript脚本会弹出一个对话框显示本网站颁发的所有Cookie的内容，如图1.1所示。</span></p>
+<p align="left"><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/0_1320831961Yumf.gif" alt=""></p>
+<p align="left">图1.1&nbsp; Baidu网站颁发的Cookie</p>
+<p align="left">&nbsp;</p>
+<p align="left">图1.1中弹出的对话框中显示的为Baidu网站的Cookie。其中第一行BAIDUID记录的就是笔者的身份helloweenvsfei，只是Baidu使用特殊的方法将Cookie信息加密了。</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：Cookie功能需要浏览器的支持。</p>
+<p align="left">如果浏览器不支持Cookie（如大部分手机中的浏览器）或者把Cookie禁用了，Cookie功能就会失效。</p>
+<p align="left">不同的浏览器采用不同的方式保存Cookie。</p>
+<p align="left">IE浏览器会在“C:\Documents and Settings\你的用户名\Cookies”文件夹下以文本文件形式保存，一个文本文件保存一个Cookie。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.2&nbsp; 记录用户访问次数</strong></p>
+<p align="left">Java中把Cookie封装成了javax.servlet.http.Cookie类。每个Cookie都是该Cookie类的对象。服务器通过操作Cookie类对象对客户端Cookie进行操作。通过<strong>request.getCookie()获取客户端提交的所有Cookie</strong>（以Cookie[]数组形式返回），<strong>通过response.addCookie(Cookiecookie)向客户端设置Cookie。</strong></p>
+<p align="left">Cookie对象使用key-value属性对的形式保存用户状态，一个Cookie对象保存一个属性对，一个request或者response同时使用多个Cookie。因为Cookie类位于包javax.servlet.http.<sub>*</sub>下面，所以JSP中不需要import该类。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.3&nbsp; Cookie的不可跨域名性</strong></p>
+<p align="left">很多网站都会使用Cookie。例如，Google会向客户端颁发Cookie，Baidu也会向客户端颁发Cookie。那浏览器访问Google会不会也携带上Baidu颁发的Cookie呢？或者Google能不能修改Baidu颁发的Cookie呢？</p>
+<p align="left">答案是否定的。<span style="color: #ff0000;"><strong>Cookie具有不可跨域名性</strong>。根据Cookie规范，浏览器访问Google只会携带Google的Cookie，而不会携带Baidu的Cookie。Google也只能操作Google的Cookie，而不能操作Baidu的Cookie。</span></p>
+<p align="left">Cookie在客户端是由浏览器来管理的。浏览器能够保证Google只会操作Google的Cookie而不会操作Baidu的Cookie，从而保证用户的隐私安全。浏览器判断一个网站是否能操作另一个网站Cookie的依据是域名。Google与Baidu的域名不一样，因此Google不能操作Baidu的Cookie。</p>
+<p align="left">需要注意的是，虽然网站images.google.com与网站www.google.com同属于Google，但是域名不一样，二者同样不能互相操作彼此的Cookie。</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：用户登录网站www.google.com之后会发现访问images.google.com时登录信息仍然有效，而普通的Cookie是做不到的。这是因为Google做了特殊处理。本章后面也会对Cookie做类似的处理。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.4&nbsp; Unicode编码：保存中文</strong></p>
+<p align="left">中文与英文字符不同，<strong>中文属于Unicode字符，在内存中占4个字符，而英文属于ASCII字符，内存中只占2个字节</strong>。Cookie中使用Unicode字符时需要对Unicode字符进行编码，否则会乱码。</p>
+<p align="left">&nbsp;</p>
+<p align="left">提示：Cookie中保存中文只能编码。一般使用UTF-8编码即可。不推荐使用GBK等中文编码，因为浏览器不一定支持，而且JavaScript也不支持GBK编码。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.5&nbsp; BASE64编码：保存二进制图片</strong></p>
+<p align="left">Cookie不仅可以使用ASCII字符与Unicode字符，还可以使用二进制数据。例如在Cookie中使用数字证书，提供安全度。使用二进制数据时也需要进行编码。</p>
+<p align="left">%注意：本程序仅用于展示Cookie中可以存储二进制内容，并不实用。由于浏览器每次请求服务器都会携带Cookie，因此Cookie内容不宜过多，否则影响速度。Cookie的内容应该少而精。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.6&nbsp; 设置Cookie的所有属性</strong></p>
+<p align="left">除了name与value之外，Cookie还具有其他几个常用的属性。每个属性对应一个getter方法与一个setter方法。Cookie类的所有属性如表1.1所示。</p>
+<p align="left">表1.1&nbsp; Cookie常用属性</p>
+<table border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td>
+<p align="center">属&nbsp; 性&nbsp; 名</p>
+</td>
+<td>
+<p align="center">描&nbsp;&nbsp;&nbsp; 述</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>String name</p>
+</td>
+<td>
+<p>该Cookie的名称。Cookie一旦创建，名称便不可更改</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Object value</p>
+</td>
+<td>
+<p>该Cookie的值。如果值为Unicode字符，需要为字符编码。如果值为二进制数据，则需要使用BASE64编码</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>int maxAge</strong></p>
+</td>
+<td>
+<p><strong>该Cookie失效的时间，单位秒。如果为正数，则该Cookie在maxAge秒之后失效。如果为负数，该Cookie为临时Cookie，关闭浏览器即失效，浏览器也不会以任何形式保存该Cookie。如果为0，表示删除该Cookie。默认为–1</strong></p>
+</td>
+</tr>
+<tr>
+<td>
+<p>boolean secure</p>
+</td>
+<td>
+<p>该Cookie是否仅被使用安全协议传输。安全协议。安全协议有HTTPS，SSL等，在网络上传输数据之前先将数据加密。默认为false</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>String path</p>
+</td>
+<td>
+<p>该Cookie的使用路径。如果设置为“/sessionWeb/”，则只有contextPath为“/sessionWeb”的程序可以访问该Cookie。如果设置为“/”，则本域名下contextPath都可以访问该Cookie。注意最后一个字符必须为“/”</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>String domain</p>
+</td>
+<td>
+<p>可以访问该Cookie的域名。如果设置为“.google.com”，则所有以“google.com”结尾的域名都可以访问该Cookie。注意第一个字符必须为“.”</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>String comment</p>
+</td>
+<td>
+<p>该Cookie的用处说明。浏览器显示Cookie信息的时候显示该说明</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>int version</p>
+</td>
+<td>
+<p>该Cookie使用的版本号。0表示遵循Netscape的Cookie规范，1表示遵循W3C的RFC 2109规范</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><strong>1.1.7&nbsp; Cookie的有效期</strong></p>
+<p align="left">Cookie的maxAge决定着Cookie的有效期，单位为秒（Second）。Cookie中通过getMaxAge()方法与setMaxAge(int maxAge)方法来读写maxAge属性。</p>
+<p align="left">如果maxAge属性为正数，则表示该Cookie会在maxAge秒之后自动失效。浏览器会将maxAge为正数的Cookie持久化，即写到对应的Cookie文件中。无论客户关闭了浏览器还是电脑，只要还在maxAge秒之前，登录网站时该Cookie仍然有效。下面代码中的Cookie信息将永远有效。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>Cookie cookie = new Cookie("username","helloweenvsfei");&nbsp;&nbsp; // 新建Cookie</strong></p>
+<p align="left"><strong>cookie.setMaxAge(Integer.MAX_VALUE);&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 设置生命周期为MAX_VALUE</strong></p>
+<p align="left"><strong>response.addCookie(cookie); &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 输出到客户端</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left">如果maxAge为负数，则表示该Cookie仅在本浏览器窗口以及本窗口打开的子窗口内有效，关闭窗口后该Cookie即失效。maxAge为负数的Cookie，为临时性Cookie，不会被持久化，不会被写到Cookie文件中。Cookie信息保存在浏览器内存中，因此关闭浏览器该Cookie就消失了。Cookie默认的maxAge值为–1。</p>
+<p align="left">如果maxAge为0，则表示删除该Cookie。Cookie机制没有提供删除Cookie的方法，因此通过设置该Cookie即时失效实现删除Cookie的效果。失效的Cookie会被浏览器从Cookie文件或者内存中删除，</p>
+<p align="left">&nbsp;</p>
+<p align="left">例如：</p>
+<p align="left">Cookie cookie = new Cookie("username","helloweenvsfei");&nbsp;&nbsp; // 新建Cookie</p>
+<p align="left">cookie.setMaxAge(0);&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 设置生命周期为0，不能为负数</p>
+<p align="left">response.addCookie(cookie); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 必须执行这一句</p>
+<p align="left">&nbsp;</p>
+<p align="left">response对象提供的Cookie操作方法只有一个添加操作add(Cookie cookie)。</p>
+<p align="left">要想修改Cookie只能使用一个同名的Cookie来覆盖原来的Cookie，达到修改的目的。删除时只需要把maxAge修改为0即可。</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：从客户端读取Cookie时，包括maxAge在内的其他属性都是不可读的，也不会被提交。浏览器提交Cookie时只会提交name与value属性。maxAge属性只被浏览器用来判断Cookie是否过期。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.8&nbsp; Cookie的修改、删除</strong></p>
+<p align="left">Cookie并不提供修改、删除操作。如果要修改某个Cookie，只需要新建一个同名的Cookie，添加到response中覆盖原来的Cookie。</p>
+<p align="left">如果要删除某个Cookie，只需要新建一个同名的Cookie，并将maxAge设置为0，并添加到response中覆盖原来的Cookie。注意是0而不是负数。负数代表其他的意义。读者可以通过上例的程序进行验证，设置不同的属性。</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：修改、删除Cookie时，新建的Cookie除value、maxAge之外的所有属性，例如name、path、domain等，都要与原Cookie完全一样。否则，浏览器将视为两个不同的Cookie不予覆盖，导致修改、删除失败。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.9&nbsp; Cookie的域名</strong></p>
+<p align="left">Cookie是不可跨域名的。域名www.google.com颁发的Cookie不会被提交到域名www.baidu.com去。这是由Cookie的隐私安全机制决定的。隐私安全机制能够禁止网站非法获取其他网站的Cookie。</p>
+<p align="left">正常情况下，同一个一级域名下的两个二级域名如www.helloweenvsfei.com和images.helloweenvsfei.com也不能交互使用Cookie，因为二者的域名并不严格相同。如果想所有helloweenvsfei.com名下的二级域名都可以使用该Cookie，需要设置Cookie的domain参数，例如：</p>
+<p align="left">Cookie cookie = new Cookie("time","20080808"); // 新建Cookie</p>
+<p align="left">cookie.setDomain(".helloweenvsfei.com");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置域名</p>
+<p align="left">cookie.setPath("/");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置路径</p>
+<p align="left">cookie.setMaxAge(Integer.MAX_VALUE);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置有效期</p>
+<p align="left">response.addCookie(cookie); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 输出到客户端</p>
+<p align="left">&nbsp;</p>
+<p align="left">读者可以修改本机C:\WINDOWS\system32\drivers\etc下的hosts文件来配置多个临时域名，然后使用setCookie.jsp程序来设置跨域名Cookie验证domain属性。</p>
+<p align="left">注意：domain参数必须以点(".")开始。另外，name相同但domain不同的两个Cookie是两个不同的Cookie。如果想要两个域名完全不同的网站共有Cookie，可以生成两个Cookie，domain属性分别为两个域名，输出到客户端。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.10&nbsp; Cookie的路径</strong></p>
+<p align="left">domain属性决定运行访问Cookie的域名，而path属性决定允许访问Cookie的路径（ContextPath）。例如，如果只允许/sessionWeb/下的程序使用Cookie，可以这么写：</p>
+<p align="left">Cookie cookie = new Cookie("time","20080808"); &nbsp;&nbsp;&nbsp; // 新建Cookie</p>
+<p align="left">cookie.setPath("/session/");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置路径</p>
+<p align="left">response.addCookie(cookie); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 输出到客户端</p>
+<p align="left">设置为“/”时允许所有路径使用Cookie。path属性需要使用符号“/”结尾。name相同但domain相同的两个Cookie也是两个不同的Cookie。</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：页面只能获取它属于的Path的Cookie。例如/session/test/a.jsp不能获取到路径为/session/abc/的Cookie。使用时一定要注意。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.11&nbsp; Cookie的安全属性</strong></p>
+<p align="left">HTTP协议不仅是无状态的，而且是不安全的。使用HTTP协议的数据不经过任何加密就直接在网络上传播，有被截获的可能。使用HTTP协议传输很机密的内容是一种隐患。如果不希望Cookie在HTTP等非安全协议中传输，可以设置Cookie的secure属性为true。浏览器只会在HTTPS和SSL等安全协议中传输此类Cookie。下面的代码设置secure属性为true：</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>Cookie cookie = new Cookie("time", "20080808"); // 新建Cookie</strong></p>
+<p align="left"><strong>cookie.setSecure(true); &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 设置安全属性</strong></p>
+<p align="left"><strong>response.addCookie(cookie); &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 输出到客户端</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left">提示：secure属性并不能对Cookie内容加密，因而不能保证绝对的安全性。如果需要高安全性，<strong>需要在程序中对Cookie内容加密、解密，以防泄密。</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><strong>1.1.12&nbsp; JavaScript操作Cookie</strong></p>
+<p align="left">Cookie是保存在浏览器端的，因此浏览器具有操作Cookie的先决条件。浏览器可以使用脚本程序如JavaScript或者VBScript等操作Cookie。这里以JavaScript为例介绍常用的Cookie操作。例如下面的代码会输出本页面所有的Cookie。</p>
+<p align="left">&lt;script&gt;document.write(document.cookie);&lt;/script&gt;</p>
+<p align="left">由于JavaScript能够任意地读写Cookie，有些好事者便想使用JavaScript程序去窥探用户在其他网站的Cookie。不过这是徒劳的，W3C组织早就意识到JavaScript对Cookie的读写所带来的安全隐患并加以防备了，W3C标准的浏览器会阻止JavaScript读写任何不属于自己网站的Cookie。换句话说，A网站的JavaScript程序读写B网站的Cookie不会有任何结果。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.1.13&nbsp; 案例：永久登录</strong></p>
+<p align="left">如果用户是在自己家的电脑上上网，登录时就可以记住他的登录信息，下次访问时不需要再次登录，直接访问即可。实现方法是<strong>把登录信息如账号、密码等保存在Cookie中，并控制Cookie的有效期，下次访问时再验证Cookie中的登录信息即可。</strong></p>
+<p align="left">保存登录信息有多种方案。最直接的是把用户名与密码都保持到Cookie中，下次访问时检查Cookie中的用户名与密码，与数据库比较。这是<strong>一种比较危险的选择，一般不把密码等重要信息保存到Cookie中</strong>。</p>
+<p align="left">还有<span style="color: #ff0000;"><strong>一种方案是把密码加密后保存到Cookie中，下次访问时解密并与数据库比较</strong>。这种方案略微安全一些。如果不希望保存密码，还可以把登录的时间戳保存到Cookie与数据库中，到时只验证用户名与登录时间戳就可以了。</span></p>
+<p align="left">这几种方案验证账号时都要查询数据库。</p>
+<p align="left"><span style="color: #ff0000;">本例将采用另一种方案，只在登录时查询一次数据库，以后访问验证登录信息时不再查询数据库。实现方式是<strong>把账号按照一定的规则加密后，连同账号一块保存到Cookie中。下次访问时只需要判断账号的加密规则是否正确即可</strong>。本例把账号保存到名为account的Cookie中，把账号连同密钥用MD1算法加密后保存到名为ssid的Cookie中。验证时验证Cookie中的账号与密钥加密后是否与Cookie中的ssid相等。相关代码如下：</span></p>
+<p align="left">代码1.8&nbsp;loginCookie.jsp</p>
+<p align="left">&lt;%@ page language="java"pageEncoding="UTF-8" isErrorPage="false" %&gt;</p>
+<p align="left">&lt;%! &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // JSP方法</p>
+<p align="left">&nbsp;&nbsp;&nbsp; private static final String KEY =":cookie@helloweenvsfei.com";<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 密钥&nbsp;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; public final static String calcMD1(Stringss) { // MD1 加密算法</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; String s = ss==null ?"" : ss;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 若为null返回空</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; char hexDigits[] = { '0','1', '2', '3', '4', '1', '6', '7', '8', '9',<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 'a', 'b', 'c', 'd', 'e', 'f' };&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 字典</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; try {</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; byte[] strTemp =s.getBytes();&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 获取字节</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; MessageDigestmdTemp = MessageDigest.getInstance("MD1"); // 获取MD1</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;mdTemp.update(strTemp);&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 更新数据</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; byte[] md =mdTemp.digest(); &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 加密</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; int j =md.length;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 加密后的长度</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; char str[] = newchar[j <sub>*</sub> 2];&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 新字符串数组</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; int k =0;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 计数器k</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; for (int i = 0; i&lt; j; i++) {&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 循环输出</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; byte byte0 =md[i];</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; str[k++] =hexDigits[byte0 &gt;&gt;&gt; 4 &amp; 0xf];</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; str[k++] =hexDigits[byte0 &amp; 0xf];</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return newString(str);&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 加密后字符串</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; } catch (Exception e){return null; }</p>
+<p align="left">&nbsp;&nbsp;&nbsp; }</p>
+<p align="left">%&gt;</p>
+<p align="left">&lt;%</p>
+<p align="left">&nbsp;&nbsp;&nbsp;request.setCharacterEncoding("UTF-8");&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置request编码</p>
+<p align="left">&nbsp;&nbsp;&nbsp; response.setCharacterEncoding("UTF-8");&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置response编码</p>
+<p align="left">&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; String action =request.getParameter("action"); // 获取action参数</p>
+<p align="left">&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; if("login".equals(action)){&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 如果为login动作</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; String account =request.getParameter("account");<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 获取account参数</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; String password =request.getParameter("password");<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 获取password参数</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; int timeout = newInteger(request.getParameter("timeout"));<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 获取timeout参数</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; String ssid =calcMD1(account + KEY); // 把账号、密钥使用MD1加密后保存</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CookieaccountCookie = new Cookie("account", account);<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 新建Cookie</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;accountCookie.setMaxAge(timeout);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置有效期</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Cookie ssidCookie =new Cookie("ssid", ssid);&nbsp;&nbsp; // 新建Cookie</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ssidCookie.setMaxAge(timeout);&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置有效期</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;response.addCookie(accountCookie);&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 输出到客户端</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;response.addCookie(ssidCookie); &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 输出到客户端</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 重新请求本页面，参数中带有时间戳，禁止浏览器缓存页面内容</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;response.sendRedirect(request.getRequestURI() + "?" + System.<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; currentTimeMillis());</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; }</p>
+<p align="left">&nbsp;&nbsp;&nbsp; elseif("logout".equals(action)){&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 如果为logout动作</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CookieaccountCookie = new Cookie("account", "");<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 新建Cookie，内容为空</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;accountCookie.setMaxAge(0); &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置有效期为0，删除</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Cookie ssidCookie =new Cookie("ssid", ""); // 新建Cookie，内容为空</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ssidCookie.setMaxAge(0);&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置有效期为0，删除</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;response.addCookie(accountCookie);&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;// 输出到客户端</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;response.addCookie(ssidCookie); &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 输出到客户端</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; //重新请求本页面，参数中带有时间戳，禁止浏览器缓存页面内容</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;response.sendRedirect(request.getRequestURI() + "?" + System.<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; currentTimeMillis());</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; }</p>
+<p align="left">&nbsp;&nbsp;&nbsp; boolean login = false;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 是否登录</p>
+<p align="left">&nbsp;&nbsp;&nbsp; String account = null;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 账号</p>
+<p align="left">&nbsp;&nbsp;&nbsp; String ssid = null; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // SSID标识</p>
+<p align="left">&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; if(request.getCookies() !=null){&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 如果Cookie不为空</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; for(Cookie cookie :request.getCookies()){&nbsp; // 遍历Cookie</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if(cookie.getName().equals("account"))&nbsp; // 如果Cookie名为<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; account</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; account = cookie.getValue();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 保存account内容</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if(cookie.getName().equals("ssid")) // 如果为SSID</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ssid = cookie.getValue();&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 保存SSID内容</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</p>
+<p align="left">&nbsp;&nbsp;&nbsp; }</p>
+<p align="left">&nbsp;&nbsp;&nbsp; if(account != null &amp;&amp; ssid !=null){&nbsp;&nbsp;&nbsp; // 如果account、SSID都不为空</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; login =ssid.equals(calcMD1(account + KEY));<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 如果加密规则正确, 则视为已经登录</p>
+<p align="left">&nbsp;&nbsp;&nbsp; }</p>
+<p align="left">%&gt;</p>
+<p align="left">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01Transitional//EN"&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&lt;legend&gt;&lt;%= login ? "欢迎您回来" : "请先登录"%&gt;&lt;/legend&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;% if(login){%&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 欢迎您, ${ cookie.account.value }. &amp;nbsp;&amp;nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&lt;a href="${ pageContext.request.requestURI }?action=logout"&gt;<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 注销&lt;/a&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;% } else {%&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;formaction="${ pageContext.request.requestURI }?action=login"<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; method="post"&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&lt;table&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;&lt;td&gt;账号： &lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;input type="text"name="account" style="width:<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200px; "&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;&lt;td&gt;密码： &lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;inputtype="password" name="password"&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;有效期： &lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;inputtype="radio" name="timeout" value="-1"<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; checked&gt; 关闭浏览器即失效 &lt;br/&gt; &lt;input type="radio" <br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name="timeout" value="&lt;%= 30 <sub>*</sub>24 <sub>*</sub> 60 <sub> *</sub> 60 %&gt;"&gt; 30天<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 内有效 &lt;br/&gt;&lt;input type="radio" name="timeout" value= <br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "&lt;%= Integer.MAX_VALUE %&gt;"&gt; 永久有效 &lt;br/&gt; &lt;/td&gt; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;&lt;td&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;input type="submit"value=" 登&nbsp; 录 " class= <br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "button"&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&lt;/table&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/form&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;% } %&gt;</p>
+<p align="left">登录时可以选择登录信息的有效期：关闭浏览器即失效、30天内有效与永久有效。通过设置Cookie的age属性来实现，注意观察代码。运行效果如图1.7所示。</p>
+<p align="left"><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/0_1320832572fkE6.gif" alt=""></p>
+<p align="left">图1.7&nbsp; 永久登录</p>
+<p align="left"><span style="color: #ff0000;">提示：该加密机制中最重要的部分为算法与密钥。由于MD1算法的不可逆性，即使用户知道了账号与加密后的字符串，也不可能解密得到密钥。因此，只要保管好密钥与算法，该机制就是安全的。</span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.2&nbsp; Session机制</strong></p>
+<p align="left">除了使用Cookie，Web应用程序中还经常使用Session来记录客户端状态。<strong>Session是服务器端使用的一种记录客户端状态的机制</strong>，使用上比Cookie简单一些，相应的也<strong>增加了服务器的存储压力</strong>。</p>
+<p align="left"><strong>1.2.1&nbsp; 什么是Session</strong></p>
+<p align="left"><span style="color: #ff0000;">Session是另一种记录客户状态的机制，不同的是Cookie保存在客户端浏览器中，而Session保存在服务器上。客户端浏览器访问服务器的时候，服务器把客户端信息以某种形式记录在服务器上。这就是Session。客户端浏览器再次访问时只需要从该Session中查找该客户的状态就可以了。</span></p>
+<p align="left"><span style="color: #ff0000;">如果说<strong>Cookie机制是通过检查客户身上的“通行证”来确定客户身份的话，那么Session机制就是通过检查服务器上的“客户明细表”来确认客户身份。Session相当于程序在服务器上建立的一份客户档案，客户来访的时候只需要查询客户档案表就可以了。</strong></span></p>
+<p align="left"><strong>1.2.2&nbsp; 实现用户登录</strong></p>
+<p align="left">Session对应的类为javax.servlet.http.HttpSession类。每个来访者对应一个Session对象，所有该客户的状态信息都保存在这个Session对象里。<strong>Session对象是在客户端第一次请求服务器的时候创建的</strong>。Session也是一种key-value的属性对，通过getAttribute(Stringkey)和setAttribute(String key，Objectvalue)方法读写客户状态信息。Servlet里通过request.getSession()方法获取该客户的Session，</p>
+<p align="left">例如：</p>
+<p align="left">HttpSession session = request.getSession(); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 获取Session对象</p>
+<p align="left">session.setAttribute("loginTime", new Date());&nbsp;&nbsp;&nbsp;&nbsp; // 设置Session中的属性</p>
+<p align="left">&nbsp;&nbsp;&nbsp; </p>
+<p align="left">out.println("登录时间为：" +(Date)session.getAttribute("loginTime"));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 获取Session属性</p>
+<p align="left">request还可以使用getSession(boolean create)来获取Session。区别是如果该客户的Session不存在，request.getSession()方法会返回null，而getSession(true)会先创建Session再将Session返回。</p>
+<p align="left">Servlet中必须使用request来编程式获取HttpSession对象，而JSP中内置了Session隐藏对象，可以直接使用。如果使用声明了&lt;%@page session="false" %&gt;，则Session隐藏对象不可用。下面的例子使用Session记录客户账号信息。</p>
+<p align="left">源代码如下：</p>
+<p align="left">代码1.9&nbsp; session.jsp</p>
+<p align="left">&lt;%@ page language="java" pageEncoding="UTF-8"%&gt;</p>
+<p align="left">&lt;jsp:directive.page import="com.helloweenvsfei.sessionWeb.bean.Person"/&gt;</p>
+<p align="left">&lt;jsp:directive.page import="java.text.SimpleDateFormat"/&gt;</p>
+<p align="left">&lt;jsp:directive.page import="java.text.DateFormat"/&gt;</p>
+<p align="left">&lt;jsp:directive.page import="java.util.Date"/&gt;</p>
+<p align="left">&lt;%!</p>
+<p align="left">&nbsp;&nbsp;&nbsp; DateFormat dateFormat = newSimpleDateFormat("yyyy-MM-dd");&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; // 日期格式化器</p>
+<p align="left">%&gt;</p>
+<p align="left">&lt;%</p>
+<p align="left">&nbsp;&nbsp;&nbsp; response.setCharacterEncoding("UTF-8");&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 设置request编码</p>
+<p align="left">&nbsp;&nbsp;&nbsp; Person[] persons =</p>
+<p align="left">&nbsp;&nbsp;&nbsp; {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 基础数据，保存三个人的信息</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; new Person("Liu Jinghua","password1", 34, dateFormat.parse<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ("1982-01-01")),</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; new Person("Hello Kitty","hellokitty", 23, dateFormat.parse<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ("1984-02-21")),</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; new Person("Garfield", "garfield_pass",23, dateFormat.parse<br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ("1994-09-12")),</p>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp; };</p>
+<p align="left">&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; String message = "";&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 要显示的消息</p>
+<p align="left">&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; if(request.getMethod().equals("POST"))</p>
+<p align="left">&nbsp;&nbsp;&nbsp; { </p>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 如果是POST登录&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; for(Person person :persons)</p>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 遍历基础数据，验证账号、密码</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 如果用户名正确且密码正确</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if(person.getName().equalsIgnoreCase(request.getParameter("username"))&amp;&amp;person.getPassword().equals(request.getParameter("password")))</p>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 登录成功，设置将用户的信息以及登录时间保存到Session</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session.setAttribute("person", person);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 保存登录的Person</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session.setAttribute("loginTime", new Date());&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; // 保存登录的时间&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; response.sendRedirect(request.getContextPath() + "/welcome.jsp");</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; message = "用户名密码不匹配，登录失败。";&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // 登录失败</p>
+<p align="left">&nbsp;&nbsp;&nbsp; }</p>
+<p align="left">%&gt;</p>
+<p align="left">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01Transitional//EN"&gt;</p>
+<p align="left">&lt;html&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; // ... HTML代码为一个FORM表单，代码略，请看随书光盘</p>
+<p align="left">&lt;/html&gt;</p>
+<p align="left">&nbsp;</p>
+<p align="left">登录界面验证用户登录信息，如果登录正确，就把用户信息以及登录时间保存进Session，然后转到欢迎页面welcome.jsp。welcome.jsp中从Session中获取信息，并将用户资料显示出来。</p>
+<p align="left">welcome.jsp代码如下：</p>
+<p align="left">代码1.10&nbsp; welcome.jsp</p>
+<p align="left">&lt;%@ page language="java" pageEncoding="UTF-8"%&gt;</p>
+<p align="left">&lt;jsp:directive.pageimport="com.helloweenvsfei.sessionWeb.bean.Person"/&gt;</p>
+<p align="left">&lt;jsp:directive.page import="java.text.SimpleDateFormat"/&gt;</p>
+<p align="left">&lt;jsp:directive.page import="java.text.DateFormat"/&gt;</p>
+<p align="left">&lt;jsp:directive.page import="java.util.Date"/&gt;</p>
+<p align="left">&lt;%!</p>
+<p align="left">&nbsp;&nbsp;&nbsp; DateFormat dateFormat = newSimpleDateFormat("yyyy-MM-dd");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 日期格式化器</p>
+<p align="left">%&gt;</p>
+<p align="left">&lt;%</p>
+<p align="left">&nbsp;&nbsp;&nbsp; Person person =(Person)session.getAttribute("person");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 获取登录的person</p>
+<p align="left">&nbsp;&nbsp;&nbsp; Date loginTime =(Date)session.getAttribute("loginTime");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 获取登录时间</p>
+<p align="left">%&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; // ... 部分HTML代码略</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;table&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;&lt;td&gt;您的姓名：&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;%= person.getName()%&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;&lt;td&gt;登录时间：&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;%= loginTime%&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;&lt;td&gt;您的年龄：&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;%= person.getAge()%&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;tr&gt;&lt;td&gt;您的生日：&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;td&gt;&lt;%=dateFormat.format(person.getBirthday()) %&gt;&lt;/td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/tr&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/table&gt;</p>
+<p align="left">程序运行效果如图1.8所示。</p>
+<p align="left"><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/0_13208326838dA8.gif" alt="" width="614" height="280"></p>
+<p align="left">图1.8&nbsp; 使用Session记录用户信息</p>
+<p align="left">注意程序中Session中直接保存了Person类对象与Date类对象，使用起来要比Cookie方便。</p>
+<p align="left">当多个客户端执行程序时，服务器会保存多个客户端的Session。获取Session的时候也不需要声明获取谁的Session。<strong>Session机制决定了当前客户只会获取到自己的Session，而不会获取到别人的Session。各客户的Session也彼此独立，互不可见</strong>。</p>
+<p align="left">&nbsp;</p>
+<p align="left">提示<strong>：<span style="color: #ff0000;">Session的使用比Cookie方便，但是过多的Session存储在服务器内存中，会对服务器造成压力。</span></strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><strong>1.2.3&nbsp; Session的生命周期</strong></p>
+<p align="left"><span style="color: #ff0000;">Session保存在服务器端。<strong>为了获得更高的存取速度，服务器一般把Session放在内存里。每个用户都会有一个独立的Session。如果Session内容过于复杂，当大量客户访问服务器时可能会导致内存溢出。因此，Session里的信息应该尽量精简。</strong></span></p>
+<p align="left"><strong>Session在用户第一次访问服务器的时候自动创建</strong>。需要注意只有访问JSP、Servlet等程序时才会创建Session，只访问HTML、IMAGE等静态资源并不会创建Session。如果尚未生成Session，也可以使用request.getSession(true)强制生成Session。</p>
+<p align="left"><strong><span style="color: #ff0000;">S<span style="color: #ff0000;">ession生成后，只要用户继续访问，服务器就会更新Session的最后访问时间，并维护该Session</span></span></strong><span style="color: #ff0000;">。用户每访问服务器一次，无论是否读写Session，服务器都认为该用户的Session“活跃（active）”了一次。</span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.2.4&nbsp; Session的有效期</strong></p>
+<p align="left">由于会有越来越多的用户访问服务器，因此Session也会越来越多。<span style="color: #ff0000;"><strong>为防止内存溢出，服务器会把长时间内没有活跃的Session从内存删除。这个时间就是Session的超时时间。如果超过了超时时间没访问过服务器，Session就自动失效了。</strong></span></p>
+<p align="left">Session的超时时间为maxInactiveInterval属性，可以通过对应的getMaxInactiveInterval()获取，通过setMaxInactiveInterval(longinterval)修改。</p>
+<p align="left">Session的超时时间也可以在web.xml中修改。另外，通过调用Session的invalidate()方法可以使Session失效。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.2.5&nbsp; Session的常用方法</strong></p>
+<p align="left">Session中包括各种方法，使用起来要比Cookie方便得多。Session的常用方法如表1.2所示。</p>
+<p align="left">表1.2&nbsp; HttpSession的常用方法</p>
+<table border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td>
+<p align="center">方&nbsp; 法&nbsp; 名</p>
+
+
+</td>
+<td>
+<p align="center">描&nbsp;&nbsp;&nbsp; 述</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>void setAttribute(String attribute, Object value)</p>
+
+
+</td>
+<td>
+<p>设置Session属性。value参数可以为任何Java Object。通常为Java Bean。value信息不宜过大</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>String getAttribute(String attribute)</p>
+
+
+</td>
+<td>
+<p>返回Session属性</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>Enumeration getAttributeNames()</p>
+
+
+</td>
+<td>
+<p>返回Session中存在的属性名</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>void removeAttribute(String attribute)</p>
+
+
+</td>
+<td>
+<p>移除Session属性</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>String getId()</p>
+
+
+</td>
+<td>
+<p>返回Session的ID。该ID由服务器自动创建，不会重复</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>long getCreationTime()</p>
+
+
+</td>
+<td>
+<p>返回Session的创建日期。返回类型为long，常被转化为Date类型，例如：Date createTime = new Date(session.get CreationTime())</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>long getLastAccessedTime()</p>
+
+
+</td>
+<td>
+<p>返回Session的最后活跃时间。返回类型为long</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>int getMaxInactiveInterval()</p>
+
+
+</td>
+<td>
+<p>返回Session的超时时间。单位为秒。超过该时间没有访问，服务器认为该Session失效</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>void setMaxInactiveInterval(int second)</p>
+
+
+</td>
+<td>
+<p>设置Session的超时时间。单位为秒</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>void putValue(String attribute, Object value)</p>
+
+
+</td>
+<td>
+<p>不推荐的方法。已经被setAttribute(String attribute, Object Value)替代</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>Object getValue(String attribute)</p>
+
+
+</td>
+<td>
+<p>不被推荐的方法。已经被getAttribute(String attr)替代</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>boolean isNew()</p>
+
+
+</td>
+<td>
+<p>返回该Session是否是新创建的</p>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>
+<p>void invalidate()</p>
+
+
+</td>
+<td>
+<p>使该Session失效</p>
+
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table>
+<p align="left">Tomcat中Session的默认超时时间为20分钟。通过setMaxInactiveInterval(int seconds)修改超时时间。可以修改web.xml改变Session的默认超时时间。例如修改为60分钟：</p>
+<p align="left">&lt;session-config&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp;&lt;session-timeout&gt;60&lt;/session-timeout&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;!-- 单位：分钟 --&gt;</p>
+<p align="left">&lt;/session-config&gt;</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：&lt;session-timeout&gt;参数的单位为分钟，而setMaxInactiveInterval(int s)单位为秒。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.2.6&nbsp; Session对浏览器的要求</strong></p>
+<p align="left">虽然Session保存在服务器，对客户端是透明的，它的正常运行仍然需要客户端浏览器的支持。这是因为Session需要使用Cookie作为识别标志。HTTP协议是无状态的，Session不能依据HTTP连接来判断是否为同一客户，因此服务器向客户端浏览器发送一个名为JSESSIONID的Cookie，它的值为该Session的id（也就是HttpSession.getId()的返回值）。Session依据该Cookie来识别是否为同一用户。</p>
+<p align="left">该Cookie为服务器自动生成的，它的maxAge属性一般为–1，表示仅当前浏览器内有效，并且各浏览器窗口间不共享，关闭浏览器就会失效。</p>
+<p align="left"><span style="color: #ff0000;">因此同一机器的两个浏览器窗口访问服务器时，会生成两个不同的Session。但是由浏览器窗口内的链接、脚本等打开的新窗口（也就是说不是双击桌面浏览器图标等打开的窗口）除外。这类子窗口会共享父窗口的Cookie，因此会共享一个Session。</span></p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：<span style="color: #ff0000;">新开的浏览器窗口会生成新的Session，但子窗口除外。子窗口会共用父窗口的Session。例如，在链接上右击，在弹出的快捷菜单中选择“在新窗口中打开”时，子窗口便可以访问父窗口的Session。</span></p>
+<p align="left">如果客户端浏览器将Cookie功能禁用，或者不支持Cookie怎么办？例如，绝大多数的手机浏览器都不支持Cookie。Java Web提供了另一种解决方案：URL地址重写。</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.2.7&nbsp; URL地址重写</strong></p>
+<p align="left">URL地址重写是对客户端不支持Cookie的解决方案。URL地址重写的原理是将该用户Session的id信息重写到URL地址中。服务器能够解析重写后的URL获取Session的id。这样即使客户端不支持Cookie，也可以使用Session来记录用户状态。HttpServletResponse类提供了encodeURL(Stringurl)实现URL地址重写，例如：</p>
+<p align="left">&lt;td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &lt;a href="&lt;%=response.encodeURL("index.jsp?c=1&amp;wd=Java") %&gt;"&gt; <br> &nbsp;&nbsp;&nbsp; Homepage&lt;/a&gt;</p>
+<p align="left">&lt;/td&gt;</p>
+<p align="left">该方法会自动判断客户端是否支持Cookie。如果客户端支持Cookie，会将URL原封不动地输出来。如果客户端不支持Cookie，则会将用户Session的id重写到URL中。重写后的输出可能是这样的：</p>
+<p align="left">&lt;td&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &lt;ahref="index.jsp;jsessionid=0CCD096E7F8D97B0BE608AFDC3E1931E?c=<br> &nbsp;&nbsp;&nbsp; 1&amp;wd=Java"&gt;Homepage&lt;/a&gt;</p>
+<p align="left">&lt;/td&gt;</p>
+<p align="left">即在文件名的后面，在URL参数的前面添加了字符串“;jsessionid=XXX”。其中XXX为Session的id。分析一下可以知道，增添的jsessionid字符串既不会影响请求的文件名，也不会影响提交的地址栏参数。用户单击这个链接的时候会把Session的id通过URL提交到服务器上，服务器通过解析URL地址获得Session的id。</p>
+<p align="left">如果是页面重定向（Redirection），URL地址重写可以这样写：</p>
+<p align="left">&lt;%</p>
+<p align="left">&nbsp;&nbsp;&nbsp; if(“administrator”.equals(userName))</p>
+<p align="left">&nbsp;&nbsp;&nbsp; {</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;response.sendRedirect(response.encodeRedirectURL(“administrator.jsp”));</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; }</p>
+<p align="left">%&gt;</p>
+<p align="left">效果跟response.encodeURL(String url)是一样的：如果客户端支持Cookie，生成原URL地址，如果不支持Cookie，传回重写后的带有jsessionid字符串的地址。</p>
+<p align="left">对于WAP程序，由于大部分的手机浏览器都不支持Cookie，WAP程序都会采用URL地址重写来跟踪用户会话。比如用友集团的移动商街等。</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：<span style="color: #ff0000;">TOMCAT判断客户端浏览器是否支持Cookie的依据是请求中是否含有Cookie。尽管客户端可能会支持Cookie，但是由于第一次请求时不会携带任何Cookie（因为并无任何Cookie可以携带），URL地址重写后的地址中仍然会带有jsessionid。当第二次访问时服务器已经在浏览器中写入Cookie了，因此URL地址重写后的地址中就不会带有jsessionid了。</span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>1.2.8&nbsp; Session中禁止使用Cookie</strong></p>
+<p align="left">既然WAP上大部分的客户浏览器都不支持Cookie，索性禁止Session使用Cookie，统一使用URL地址重写会更好一些。Java Web规范支持通过配置的方式禁用Cookie。下面举例说一下怎样通过配置禁止使用Cookie。</p>
+<p align="left">打开项目sessionWeb的WebRoot目录下的META-INF文件夹（跟WEB-INF文件夹同级，如果没有则创建），打开context.xml（如果没有则创建），编辑内容如下：</p>
+<p align="left">代码1.11&nbsp;/META-INF/context.xml</p>
+<p align="left">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</p>
+<p align="left">&lt;Context path="/sessionWeb"cookies="false"&gt;</p>
+<p align="left">&lt;/Context&gt;</p>
+<p align="left">&nbsp;</p>
+<p align="left">或者修改Tomcat全局的conf/context.xml，修改内容如下：</p>
+<p align="left">代码1.12&nbsp; context.xml</p>
+<p align="left">&lt;!-- The contents of this file will be loaded for eachweb application --&gt;</p>
+<p align="left">&lt;Context cookies="false"&gt;</p>
+<p align="left">&nbsp;&nbsp;&nbsp; &lt;!-- ... 中间代码略 --&gt;</p>
+<p align="left">&lt;/Context&gt;</p>
+<p align="left">部署后TOMCAT便不会自动生成名JSESSIONID的Cookie，Session也不会以Cookie为识别标志，而仅仅以重写后的URL地址为识别标志了。</p>
+<p align="left">&nbsp;</p>
+<p align="left">注意：该配置只是禁止Session使用Cookie作为识别标志，并不能阻止其他的Cookie读写。也就是说服务器不会自动维护名为JSESSIONID的Cookie了，但是程序中仍然可以读写其他的Cookie。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7699632,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;817fd32c-d8db-47a9-18d0-08d49c352df3&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/liuwei0824/" target="_blank"><img src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/20170925185942.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/liuwei0824/">Cool·</a><br>
+            <a href="http://home.cnblogs.com/u/liuwei0824/followees">关注 - 6</a><br>
+            <a href="http://home.cnblogs.com/u/liuwei0824/followers">粉丝 - 12</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;817fd32c-d8db-47a9-18d0-08d49c352df3&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7699632,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(7699632,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/liuwei0824/p/7687181.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/liuwei0824/p/7687181.html" title="发布于2017-10-18 16:02">python-day63--前端</a><br><a href="https://www.cnblogs.com/liuwei0824/p/7699934.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/liuwei0824/p/7699934.html" title="发布于2017-10-20 15:57">python-day64--web框架</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-10-20 15:11</span> <a href="https://www.cnblogs.com/liuwei0824/">Cool·</a> 阅读(<span id="post_view_count">3646</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7699632" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/liuwei0824/p/7699632.html#" onclick="AddToWz(7699632);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=366534,cb_entryId=7699632,cb_blogApp=currentBlogApp,cb_blogUserGuid='817fd32c-d8db-47a9-18d0-08d49c352df3',cb_entryCreatedDate='2017/10/20 15:11:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/liuwei0824/p/7699632.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/liuwei0824/p/7699632.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-gitee&#39;)">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://cloud.tencent.com/redirect.php?redirect=1025&amp;cps_key=285f996e1cd76decfb796e3eb6d1723b&amp;from=console" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-腾讯云&#39;)">【推荐】腾讯云新客户无门槛领取总价值高达2860元代金券</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-GAITC&#39;)">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CPfborCQ2eECFYU6lgodvNYDqg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/ghjbk/p/6747181.html" target="_blank" onclick="clickRecomItmem(6747181)">Cookie/Session机制详解</a><br>·  <a href="https://www.cnblogs.com/linguoguo/p/5106618.html" target="_blank" onclick="clickRecomItmem(5106618)">Cookie和Session详解</a><br>·  <a href="https://www.cnblogs.com/hongb/p/4193193.html" target="_blank" onclick="clickRecomItmem(4193193)">Cookie/Session机制详解</a><br>·  <a href="https://www.cnblogs.com/xingmeng/archive/2012/04/23/2466574.html" target="_blank" onclick="clickRecomItmem(2466574)">Session详解 session机制 cookie机制</a><br>·  <a href="https://www.cnblogs.com/siwy/p/4891623.html" target="_blank" onclick="clickRecomItmem(4891623)">Cookie/Session机制详解</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CPjborCQ2eECFYU6lgodvNYDqg"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./Cookie_Session机制详解(非原创) - Cool· - 博客园_files/saved_resource(1).html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623979/" target="_blank">“华为牌”汽车：万亿市场的掠食者</a><br> ·  <a href="https://news.cnblogs.com/n/623978/" target="_blank">华尔街日报：AT&amp;T或在墨西哥5G升级中淘汰华为设备</a><br> ·  <a href="https://news.cnblogs.com/n/623977/" target="_blank">亚马逊：7月18日起不再运营中国国内市场业务</a><br> ·  <a href="https://news.cnblogs.com/n/623975/" target="_blank">下一代 macOS 或将支持 Mac「投屏」到 iPad</a><br> ·  <a href="https://news.cnblogs.com/n/623976/" target="_blank">报告：2019年全球5G智能手机出货量将达到500万部</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: topicList 文章列表容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/liuwei0824/">Cool·</a><br>园龄：<a href="https://home.cnblogs.com/u/liuwei0824/" title="入园时间：2017-07-11">1年9个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/liuwei0824/followers/">12</a><br>关注：<a href="https://home.cnblogs.com/u/liuwei0824/followees/">6</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;817fd32c-d8db-47a9-18d0-08d49c352df3&#39;)">+加关注</a></div><script>getFollowStatus('817fd32c-d8db-47a9-18d0-08d49c352df3')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/03/01&#39;);return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/05/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td class="CalTodayDay" align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/liuwei0824/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/liuwei0824/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/liuwei0824/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/liuwei0824/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/liuwei0824/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass(&#39;itemListLink&#39;, &#39;itemListLin_con&#39;);return false;" href="https://www.cnblogs.com/liuwei0824/p/7699632.html#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/liuwei0824/tag/Lua/">Lua</a>(8)</li><li><a href="https://www.cnblogs.com/liuwei0824/tag/Redis/">Redis</a>(3)</li><li><a href="https://www.cnblogs.com/liuwei0824/tag/JS/">JS</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/liuwei0824/archive/2019/03.html">2019年3月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/liuwei0824/archive/2019/02.html">2019年2月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/liuwei0824/archive/2018/12.html">2018年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/liuwei0824/archive/2018/10.html">2018年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/liuwei0824/archive/2018/08.html">2018年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/liuwei0824/archive/2018/07.html">2018年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/liuwei0824/archive/2018/06.html">2018年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/liuwei0824/archive/2018/03.html">2018年3月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/liuwei0824/archive/2018/02.html">2018年2月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/liuwei0824/archive/2018/01.html">2018年1月 (23)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/liuwei0824/archive/2017/12.html">2017年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/liuwei0824/archive/2017/11.html">2017年11月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/liuwei0824/archive/2017/10.html">2017年10月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/liuwei0824/archive/2017/09.html">2017年9月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/liuwei0824/archive/2017/08.html">2017年8月 (28)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/liuwei0824/archive/2017/07.html">2017年7月 (25)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	39947
+	</li><li class="liRank">
+		排名 -	14164
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liuwei0824/p/9242291.html#4160733">1. Re:seaweedFS</a></li>
+        <li class="recent_comment_body">前辈你好，不返回name字段是什么情况下可能导致的？有研究的吗？</li>
+        <li class="recent_comment_author">--沉迷代码的萌新</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/liuwei0824/p/8329705.html">1. python-mongodb基本操作都在这了(6509)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/7699632.html">2. Cookie/Session机制详解(非原创)(3645)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/8485296.html">3. python-跨域问题(3352)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/7922197.html">4. python--model进阶(2762)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/8493838.html">5. python-支付宝支付示例(2040)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/liuwei0824/p/9242291.html">1. seaweedFS(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/liuwei0824/p/7699632.html">1. Cookie/Session机制详解(非原创)(1)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/8485296.html">2. python-跨域问题(1)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/8464476.html">3. python-django rest framework框架之序列化(1)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/8417915.html">4. python-django rest framework框架(1)</a></li><li><a href="https://www.cnblogs.com/liuwei0824/p/8290481.html">5. python-flask-script定制manage命令(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+		<div class="clear"></div>
+		<div id="footer">
+			
+<!--done-->
+Copyright ©2019 Cool·
+		</div><!--end: footer -->
+	</div><!--end: sideBar 侧边栏容器 -->
+</div><!--end: home 自定义的最大容器 -->
+</center>
+
+
+
+</body></html>
