@@ -1,0 +1,4 @@
+java.util包下提供了工具类Collections，可以对集合类型的数据做一些操作。
+①对集合排序等常规操作
+②HashSet，TreeSet，ArrayList,LinkedList,HashMap,TreeMap这些事非线程安全的，Collections类同样提供了静态方法来把他们变成线程安全的。不过效率底下，如果需要线程安全的集合类型，可以使用JUC提供的并发集合。
+③设置不可变集合
