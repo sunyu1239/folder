@@ -261,3 +261,22 @@ public String varexpressions(ModelMap map) {
   map.put("itdragonNum", 888.888D);
   return "grammar/varexpressions";
 }
+
+thymeleaf3自定义方言和处理器。
+Thymeleaf为了方便扩展，定义了方言Dialect这个概念与组件。综合我个人的理解，简而言之方言就是Thymeleaf用于渲染文件的处理器Processor以及表达式Expression的集合体。
+当模板为HTML时，处理器Processor处理的是具体标签Tag的内容。其他格式的模板暂还没有使用到。
+Thymeleaf本身提供了StandardDialect,以及结合了Spring之后提供的SpringStandardDialect。Thymeleaf默认的语法 th:if等，就是定义在了StandardDialect中，th为方言的前缀，if为方言的处理器名称。
+先自定义processor，再自定义dialect，并把processor加入到dialect中，组成新的方言。
+
+final TemplateMode templateMode：     TemplateMode.HTML,（模板）// 此处理器将仅应用于HTML模式
+final String dialectPrefix：          ThymeleafDialect.PREFIX,（标签前缀）// 要应用于名称的匹配前缀
+final String elementName：            "paging",（标签后缀）// 标签名称：匹配此名称的特定标签
+final boolean prefixElementName：     true,      // 将标签前缀应用于标签名称
+final String attributeName：          null, （标签属性）      // 无属性名称：将通过标签名称匹配
+final boolean prefixAttributeName：   false, (标签中的属性是否需要前缀)     // 没有要应用于属性名称的前缀
+final int precedence：                2000（优先级）  // 优先(内部方言自己的优先)
+
+*{}和${}，如果没有选择的对象，两者语法是一样的，有选择对象的时候，*{}选择表达式可以代替选择对象，不用写具体的对象，直接用对象中的属性就行，所以和th:object一起使用。
+
+th:action属性和链接表达式@{}一起使用。
+thymeleaf 前台部分分为表达式，标签，属性。
