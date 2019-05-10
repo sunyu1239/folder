@@ -54,4 +54,40 @@ public @interface{
 解析注解：
 通过反射获取类、函数或成员上运行时注解信息，从而实现动态控制程序运行的逻辑。
 
+
+注解和修饰符差不多。
+java内置注解@Deprecated(作用：表示被标记的代码废弃)，@SuppressWarnings（作用：忽略警告信息），@Override：用于标明此方法覆盖了父类的方法。
+@SuppressWarning注解元素是字符串数组，数组值如下：
+deprecation：使用了不赞成使用的类或方法时的警告；
+unchecked：执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型;
+fallthrough：当 Switch 程序块直接通往下一种情况而没有 Break 时的警告;
+path：在类路径、源文件路径等中有不存在的路径时的警告;
+serial：当在可序列化的类上缺少 serialVersionUID 定义时的警告;
+finally：任何 finally 子句不能正常完成时的警告;
+all：关于以上所有情况的警告
+@Target和@Retention，@Documented和@Inherited是由Java提供的元注解，所谓元注解就是标记其他注解的注解。
+@Documented 被修饰的注解会生成到javadoc中，举例：
+自定义注解@res，如果定义@res时，注解@interface Res上使用了@document，则生成javadoc文档的时候，@res会生成到doc文档中去。
+自定义注解：
+①如果注解当中没有定义元素，叫做标记注解。但在自定义注解中，一般都会包含一些元素以表示某些值，方便处理器使用。
+
+注解支持的元素数据类型：
+所有基本类型（int,float,boolean,byte,double,char,long,short）
+String
+Class
+enum
+Annotation
+上述类型的数组
+
+编译器对元素的默认值有些过分挑剔。首先，元素不能有不确定的值。
+也就是说，元素必须要么具有默认值，要么在使用注解时提供元素的值。
+其次，对于非基本类型的元素，无论是在源代码中声明，还是在注解接口中定义默认值，都不能以null作为值，
+这就是限制，没有什么利用可言，但造成一个元素的存在或缺失状态，因为每个注解的声明中，所有的元素都存在，并且都具有相应的值，为了绕开这个限制，只能定义一些特殊的值，例如空字符串或负数，表示某个元素不存在。
 注解会被编译成.class文件。
+
+注解是不支持继承的，因此不能使用关键字extends来继承某个@interface，但注解在编译后，编译器会自动继承java.lang.annotation.Annotation接口
+
+所谓的快捷方式就是注解中定义了名为value的元素，并且在使用该注解时，如果该元素是唯一需要赋值的一个元素，那么此时无需使用key=value的语法，而只需在括号内给出value元素所需的值即可。
+这可以应用于任何合法类型的元素，记住，这限制了元素名必须为value。
+
+@Inherited 可以让注解被继承，但这并不是真的继承，只是通过使用@Inherited，可以让子类Class对象使用getAnnotations()获取父类被@Inherited修饰的注解
