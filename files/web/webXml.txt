@@ -1,0 +1,6 @@
+web.xml是web容器初始化时，用到的配置文件，web容器常见的如tomcat。web.xml文件中配置filter，servlet，listener。
+拦截器不依赖servlet，不是在web.xml里面配置。
+listener的作用：主要作用是： 做一些初始化的内容添加工作、设置一些基本的内容、比如一些参数或者是一些固定的对象等等。比如说，把数据库连接池的配置信息写好。
+springMvc servlet配置这部分直接交给dispatcherServlet处理。
+初始化顺序：listener，filter，servlet。
+springMvc中filter，listener，servlet都有封装。

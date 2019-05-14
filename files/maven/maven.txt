@@ -1230,3 +1230,15 @@ maven项目每次update project之后都会回到je-1.5，解决方案如下：
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>    
     </properties>    
     </profile> 
+	
+maven scope依赖范围：compile（默认），test，provided
+complile：编译，测试，运行都有效
+test：测试有效
+provided：编译，测试有效
+
+springboot本身内置tomcat，如果需要部署到外部的 tomcat，这时pom文件里的depence依赖就需要用到scope的provide了。
+项目打包成war，有两种方式部署到外部tomcat，
+方式1：dependence依赖使用属性exclusion来删除内置tomcat，并且配置tomcat.embed依赖的scope为provided。
+方式2：直接把tomcat依赖和tomcat.embed依赖的scope方位设为provided。
+springboot 打包war时的名称需要和配置文件中的server.context-path的value一样。springboot使用内置tomcat时，前台访问是不需要项目名称的，这是一个特征。
+pom文件中对应的war包名称是通过build->finalName设置的。
