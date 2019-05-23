@@ -26,3 +26,5 @@ springmvc通过对ModelAndView对象进行解析，获得需要响应到客户�
 ①简单类型：String类型和基本数据类型的形参
 ②http请求传递的所有数据封装到javabean里面，javabean类型的形参
 ③定义集合类型的形参
+
+拦截器：在springMVC.xml中配置
