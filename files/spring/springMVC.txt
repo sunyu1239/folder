@@ -36,3 +36,5 @@ dispatcherServlet中的
 总结
 < url-pattern>/</url-pattern>  会匹配到/login这样的路径型url，不会匹配到模式为*.jsp这样的后缀型url
 < url-pattern>/*</url-pattern> 会匹配所有url：路径型的和后缀型的url(包括/login,*.jsp,*.js和*.html等)
+上面的都是浮云，其实就是/*是真正的拦截所有url，视图解析url的时候再次被dispatcherServlet拦截到了，找不到匹配的映射，就会挂掉。
+/不是拦截所有的请求，后缀为jsp，html的不会被dispatcherServlet再次拦截，也就不会去寻找map映射，就不会挂掉。
