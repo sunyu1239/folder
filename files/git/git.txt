@@ -52,3 +52,29 @@ git push 带有参数：
 （4） git push origin --tags //git push 的时候不会推送分支，如果一定要推送标签的话那么可以使用这个命令
 
 refs/for 的意义在于我们提交代码到服务器之后是需要经过code review 之后才能进行merge的，而refs/heads 不需要
+
+git diff 查看文件差异（diff采用的是一种合并格式的比较方法）
+git diff 不加参数即默认比较工作区与暂存区
+比较暂存区与最新本地版本库（本地库中最近一次commit的内容）
+git diff --cached  [<path>...] 
+比较工作区与最新本地版本库
+git diff HEAD [<path>...]  如果HEAD指向的是master分支，那么HEAD还可以换成master
+比较工作区与指定commit-id的差异
+git diff commit-id  [<path>...] 
+ 比较暂存区与指定commit-id的差异
+git diff --cached [<commit-id>] [<path>...] 
+比较两个commit-id之间的差异
+git diff [<commit-id>] [<commit-id>]
+
+git diff 补丁
+git diff > patch //patch的命名是随意的，不加其他参数时作用是当我们希望将我们本仓库工作区的修改拷贝一份到其他机器上使用，但是修改的文件比较多，拷贝量比较大，
+　此时我们可以将修改的代码做成补丁，之后在其他机器上对应目录下使用 git apply patch 将补丁打上即可
+　git diff --cached > patch //是将我们暂存区与版本库的差异做成补丁
+  git diff --HEAD > patch //是将工作区与版本库的差异做成补丁
+git diff Testfile > patch//将单个文件做成一个单独的补丁
+拓展：git apply patch 应用补丁，应用补丁之前我们可以先检验一下补丁能否应用，git apply --check patch 如果没有任何输出，那么表示可以顺利接受这个补丁
+另外可以使用git apply --reject patch将能打的补丁先打上，有冲突的会生成.rej文件，此时可以找到这些文件进行手动打补丁　 
+
+git配置换行符
+git config --global autocrlf true(检出自动换，提交自动换)/input（检出不换，提交换）/false（检出和提交都不转换）
+safecrlf true（拒绝提交混合换行符）/false（允许提交混合换行符）/warning（警告提交换行符）
