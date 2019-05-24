@@ -78,3 +78,6 @@ git diff Testfile > patch//将单个文件做成一个单独的补丁
 git配置换行符
 git config --global autocrlf true(检出自动换，提交自动换)/input（检出不换，提交换）/false（检出和提交都不转换）
 safecrlf true（拒绝提交混合换行符）/false（允许提交混合换行符）/warning（警告提交换行符）
+
+本地新建分支 git push 的时候 带上--set-upstream origin/master 远程新建分支，本地会跟踪远程分支。
+从远程检出新分支到本地，git checkout --track origin/master 这样就会自动跟踪。
