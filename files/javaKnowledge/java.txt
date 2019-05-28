@@ -37,3 +37,16 @@ jdk1.6之后synchronized和reentrantlock的性能差不多了。
 锁分为乐观锁和悲观锁。
 悲观锁：synchronized和reentrantlock
 乐观锁：版本机制，cas算法（compare and swap）
+
+java泛型：
+？ 表示不确定的java类型
+T (type) 表示具体的一个java类型
+K V (key value) 分别代表java键值中的Key Value
+E (element) 代表Element
+
+Class<T>在实例化的时候，T要替换成具体类
+Class<?>它是个通配泛型，?可以代表任何类型，主要用于声明时的限制情况
+
+泛型是编译时期起作用。
+
+回调函数是多态的一种运用，A自己定义一个方法a,a方法中的行为不确定，A就提供了一个接口给外部，让外部来实施具体的行为，A再调用a方法，a方法中的具体行为可以用接口中的一个方法来定义，不同的行为只要重写改方法就行，改方法就是回掉函数。
