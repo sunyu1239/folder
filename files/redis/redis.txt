@@ -235,3 +235,33 @@ redis 127.0.0.1:6379> > ZRANGEBYSCORE runoob 0 1000
 
 redis-cli；打开redis内置客户端，不带参数的是本地。
 redis-cli -h host -p port -a password 打开远程客户端
+
+命令：
+
+添加数据：set <key> <value> 
+
+获得数据：get <key>
+
+是否存在：exists <key>
+
+删除数据：del <key>
+
+修改数据：set <key> <value>
+查找键：keys <名称能配符>
+设置过期时间：expire <key> <秒数>
+删除过期时间：persist <key> 
+info
+服务器基本信息
+
+monitor
+
+实时转储收到的请求
+
+config get
+获取服务器的参数配置
+
+flushdb
+清空当前数据库
+
+flushall
+清除所有数据库
