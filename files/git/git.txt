@@ -81,3 +81,6 @@ safecrlf true（拒绝提交混合换行符）/false（允许提交混合换行�
 
 本地新建分支 git push 的时候 带上--set-upstream origin/master 远程新建分支，本地会跟踪远程分支。
 从远程检出新分支到本地，git checkout --track origin/master 这样就会自动跟踪。
+
+git status 中文显示乱码
+git config --global core.quotepath false
